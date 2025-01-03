@@ -13,27 +13,27 @@ nav {
     padding: 10px;
     background-color: rgba(0, 0, 0, 0.2);
     display: flex;
-    justify-content: space-between; /* מוסיף רווח בין האלמנטים */
-    align-items: center; /* מיישר את האלמנטים במרכז הוורטיקלי */
-    position: fixed; /* הסרגל יישאר תמיד במיקום קבוע */
-    top: 0; /* הצמד אותו לחלק העליון */
-    left: 0; /* הצמד אותו לשמאל */
-    width: 100%; /* וודא שהסרגל ימלא את רוחב המסך */
-    z-index: 1000; /* לוודא שהסרגל יהיה מעל אלמנטים אחרים */
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
 }
 
 nav a {
-    margin-left:  10px;
+    margin-left: 10px;
     margin-right: 30px;
-    color: black; 
-    text-decoration: none; 
-    font-size: 18px; 
-    transition: font-weight 0.3s; 
+    color: #d9d9d9;
+    text-decoration: none;
+    font-size: 18px;
+    transition: font-weight 0.3s;
 }
 
 /* Change tab when the user hover */
 nav a:hover {
-    font-weight: bold; 
+    font-weight: bold;
     /* transform: scale(1.1); */
 }
 
@@ -42,24 +42,59 @@ nav a:hover {
 /* Coin-icon Animation and Style */
 @keyframes spin {
     0% {
-        transform: rotateY(0deg); 
+        transform: rotateY(0deg);
     }
+
     100% {
-        transform: rotateY(360deg); 
+        transform: rotateY(360deg);
     }
 }
 
 .rotating-icon {
-    width: 30px; /* גודל קטן יותר */
-    height: 30px; /* גובה קטן יותר */
-    animation: spin 5s linear infinite; /* חצי סיבוב כל 5 שניות */
-    transform-style: preserve-3d; /* שומר על אפקט הסיבוב בתלת-ממד */
+    width: 30px;
+    height: 30px;
+    animation: spin 5s linear infinite;
+    transform-style: preserve-3d;
     margin-right: 30px;
 }
 
 nav img {
-    margin-left: auto; 
+    margin-left: auto;
 }
 
 /* ------------------------------------------------------------------------------ */
 
+/* Parallax container */
+.parallax-container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden; /* מוודא שהתמונה לא תצא מגבולות */
+}
+
+/* Parallax background stays fixed */
+.parallax-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url(assets/images/Virtual\ Coins\ Explorer.png);
+    background-position: center;
+    background-size: cover;
+    z-index: -1; /* מוודא שהתמונה נשארת מאחורה */
+}
+
+/* Parallax image style */
+.parallax-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url(assets/images/test.png); /* תמונת המטבעות */
+    background-size: cover; /* תתפוס את כל השטח */
+    background-position: center;
+    z-index: 0; /* שים אותה מתחת לרקע */
+    transform: translate3d(0, 0, 0); /* מיקום התמונה מתחיל על-פי הגלילה */
+}
