@@ -82,7 +82,7 @@ nav img {
     background-image: url(assets/images/Virtual\ Coins\ Explorer.png);
     background-position: center;
     background-size: cover;
-    z-index: -1; /* מוודא שהתמונה נשארת מאחורה */
+    z-index: -1; 
 }
 
 /* Parallax image style */
@@ -92,9 +92,9 @@ nav img {
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url(assets/images/test.png); /* תמונת המטבעות */
-    background-size: cover; /* תתפוס את כל השטח */
+    background-image: url(assets/images/test.png); 
+    background-size: cover; 
     background-position: center;
-    z-index: 0; /* שים אותה מתחת לרקע */
-    transform: translate3d(0, 0, 0); /* מיקום התמונה מתחיל על-פי הגלילה */
+    z-index: 0; 
+    transform: translate3d(0, 0, 0); 
 }

@@ -12,9 +12,25 @@ function test(){
 
 window.addEventListener('scroll', function () {
     const parallaxImage = document.querySelector('.parallax-image');
-    const scrollPosition = window.scrollY; // מקבל את מיקום הגלילה
-    const speed = 0.4; // קובע את מהירות תנועת התמונה
+    const parallaxBg = document.querySelector('.parallax-bg');
+    const navLinks = document.querySelectorAll('nav a');
+    const scrollPosition = window.scrollY; // מיקום הגלילה
+    const speed = 0.4; // מהירות תנועת התמונה
 
-    // מחשב את המיקום החדש של התמונה של המטבעות לפי הגלילה
+    // אנימציית הפרלקס
     parallaxImage.style.transform = 'translate3d(0, ' + (scrollPosition * speed) + 'px, 0)';
+
+    // שינוי צבע הקישורים ב-nav
+    const parallaxBgBottom = parallaxBg.getBoundingClientRect().bottom; // גבול התחתון של הפרלקס
+    if (parallaxBgBottom <= 0) {
+        // אם הגלילה עברה את סוף הפרלקס
+        navLinks.forEach(link => {
+            link.style.color = 'black'; // צבע טקסט שחור
+        });
+    } else {
+        // אם ה-nav עדיין על גבי הרקע
+        navLinks.forEach(link => {
+            link.style.color = '#d9d9d9'; // הצבע המקורי
+        });
+    }
 });
