@@ -1,0 +1,65 @@
+body {
+    font-family: monospace;
+    margin: 0;
+    background-color: #f2f1ec;
+}
+
+
+/* ------------------------------------------------------------------------------ */
+
+/* Navbar */
+nav {
+    margin: 0;
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: space-between; /* מוסיף רווח בין האלמנטים */
+    align-items: center; /* מיישר את האלמנטים במרכז הוורטיקלי */
+    position: fixed; /* הסרגל יישאר תמיד במיקום קבוע */
+    top: 0; /* הצמד אותו לחלק העליון */
+    left: 0; /* הצמד אותו לשמאל */
+    width: 100%; /* וודא שהסרגל ימלא את רוחב המסך */
+    z-index: 1000; /* לוודא שהסרגל יהיה מעל אלמנטים אחרים */
+}
+
+nav a {
+    margin-left:  10px;
+    margin-right: 30px;
+    color: black; 
+    text-decoration: none; 
+    font-size: 18px; 
+    transition: font-weight 0.3s; 
+}
+
+/* Change tab when the user hover */
+nav a:hover {
+    font-weight: bold; 
+    /* transform: scale(1.1); */
+}
+
+
+
+/* Coin-icon Animation and Style */
+@keyframes spin {
+    0% {
+        transform: rotateY(0deg); 
+    }
+    100% {
+        transform: rotateY(360deg); 
+    }
+}
+
+.rotating-icon {
+    width: 30px; /* גודל קטן יותר */
+    height: 30px; /* גובה קטן יותר */
+    animation: spin 5s linear infinite; /* חצי סיבוב כל 5 שניות */
+    transform-style: preserve-3d; /* שומר על אפקט הסיבוב בתלת-ממד */
+    margin-right: 30px;
+}
+
+nav img {
+    margin-left: auto; 
+}
+
+/* ------------------------------------------------------------------------------ */
+
