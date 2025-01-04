@@ -1,7 +1,8 @@
 /// <reference path="jquery-3.7.1.js"/>
 "use strict";
 
-
+// Only for tests
+// **************
 window.onload = function () {
     test();
 };
@@ -15,15 +16,16 @@ function test() {
     testDiv.innerHTML = content;
 }
 
-
+// Parallax Animation 
+// ******************
 $(window).scroll(() => {
-    // Parallax animation
+    // Create animation
     const scrollPositionY = $(window).scrollTop();
     const speed = 0.4;
-    $(".parallax-image").css("transform", `translate3d(0, ${scrollPositionY * speed}px, 0)`);
+    $(".parallaxImage").css("transform", `translate3d(0, ${scrollPositionY * speed}px, 0)`);
 
     // Adjust navbar color
-    const backgroundHeight = $(".parallax-bg").outerHeight();
+    const backgroundHeight = $(".parallaxBg").outerHeight();
     if (backgroundHeight <= scrollPositionY)
         $("nav a").css("color", "black");
     else
