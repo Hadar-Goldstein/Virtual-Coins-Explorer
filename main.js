@@ -109,13 +109,14 @@ function selectedCoins(id){
 
 function modalHandling() {
     const selectedCoinsList = document.getElementById("selectedCoinsList");
+    document.body.style.overflow = 'hidden';
     capacityModal.style.display = "flex";
     let content = "";
         for(const item of coinsArray){
             content+= `
-            <div>
-                <input type="radio">
-                <label>${item}</label><br>
+            <div class="checkboxContainer">
+                <input type="checkbox" id="checkbox-${item}">
+                <label for="checkbox-${item}">${item}</label><br>
             </div>`;
         }
 
@@ -124,6 +125,7 @@ function modalHandling() {
     if(closeModal){
         closeModal.addEventListener("click", () => {
             capacityModal.style.display = "none";
+            document.body.style.overflow = '';
         });
     }
 }

@@ -328,6 +328,8 @@ nav img {
     left: 0;
     height: 100vh;
     width: 100vw;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
 }
 
 .modal-content {
@@ -382,3 +384,32 @@ nav img {
     gap: 10px; 
     color: rgba(0, 0, 0, 0.7);
 }
+
+
+.checkboxContainer {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    margin-bottom: 10px;
+    transition: background-color 0.3s ease;
+    cursor: pointer; 
+    width: 100%; /* וודא שה-div תופס את כל רוחב העטיפה */
+  }
+  
+  .checkboxContainer:hover {
+    background-color: #e0e0e0;
+    border-radius: 4px; 
+  }
+  
+
+  .checkboxContainer label {
+    display: block; /* תווית שתופס את כל רוחב ה-div */
+    width: 100%; /* תווית תתפוס את כל רוחב ה-div */
+    margin-left: 10px; /* רווח מימין לאובייקט */
+    text-align: left;
+  }
+  
+  .checkboxContainer input[type="checkbox"]:checked + label {
+    color: #007bff; 
+  }
+  
