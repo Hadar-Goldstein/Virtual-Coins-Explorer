@@ -30,7 +30,8 @@ $(window).scroll(() => {
 // --------------------------------------------------------------------------------------------------
 
 async function getCoinsData() {
-    const url = "https://api.coingecko.com/api/v3/coins/list";
+    // const url = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd";
+    const url = "coins.json";
     const response = await axios.get(url);
     const coins = response.data;
     displayCoins(coins);
