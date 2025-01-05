@@ -97,7 +97,7 @@ function selectedCoins(id) {
         }
     }
 
-    if (coinsArray.length === 6) {
+    if (coinsArray.length > 5) {
         openModal();
     }
 }
@@ -149,3 +149,50 @@ function closeModal() {
         document.body.style.overflow = '';
     }
 }
+
+
+// Dynamic Search
+// **************
+
+// const dynamicSearch = document.getElementById("dynamicSearch");
+// dynamicSearch.addEventListener("input", ()=>{
+
+//     const userInput = dynamicSearch.value.toLowerCase();
+//     const coinCards = document.querySelectorAll(".card");
+
+//     coinCards.forEach(card => {
+//         const cardSymbol = card.querySelector(".symbolSpan");
+//         const cardSymbolText = cardSymbol.textContent.toLowerCase();
+//         if(cardSymbolText.includes(userInput)){
+//             card.style.display = "";
+//         }
+//         else {
+//             card.style.display = "none";
+//         }
+
+//     });
+
+
+// });
+
+
+$("#dynamicSearch").on("input", function() {
+    const userInput = $(this).val().toLowerCase(); 
+    let hasResults = false;
+
+    $(".card").each(function() {
+        const cardSymbol = $(this).find(".symbolSpan");
+        const cardSymbolText = cardSymbol.text().toLowerCase(); 
+        if (cardSymbolText.includes(userInput)) {
+            $(this).show(); 
+            hasResults = true;
+        } else {
+            $(this).hide(); 
+        }
+    });
+
+    if(!hasResults)
+        $(noResultsContainer).show();
+    else
+        $(noResultsContainer).hide();
+});
