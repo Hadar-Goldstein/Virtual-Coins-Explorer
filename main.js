@@ -45,8 +45,11 @@ function displayCoins(coins) {
         content += `
         <div class="card mb-3" style="width: 13.5rem;" id="${coin.id}">
             <div class="coinIdentity">
-                <span class="symbolSpan">${coin.symbol}</span>
-                <span class="symbolName">${coin.name}</span>
+                <span class="coinImage"><img src="${coin.image}"></span>
+                <div class="coinInfo">
+                    <span class="symbolSpan">${coin.symbol}</span>
+                    <span class="symbolName">${coin.name}</span>
+                </div>
                 <div class="form-check form-switch">
                     <input onclick="selectedCoins('${coin.id}')" id="${coin.id}-toggle" class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
                 </div>

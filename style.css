@@ -283,18 +283,35 @@ nav img {
 }
 
 .coinIdentity {
-    text-align: left; 
+    display: flex;
+    align-items: flex-start; /* מוודא שהתמונה והטקסטים מתחילים בצמוד לשמאל */
+    gap: 10px; /* המרחק בין התמונה לטקסטים */
+}
+
+.coinImage {
+    display: flex;
+    justify-content: center; /* יש למרכז את התמונה */
+}
+
+.coinImage img {
+    width: 30px; /* גודל התמונה */
+    height: 30px; /* גובה התמונה */
+    flex-shrink: 0; /* לא לאפשר לתמונה להתכווץ */
+}
+
+.coinInfo {
+    display: flex;
+    flex-direction: column; /* סידור הטקסטים בטור */
+    align-items: flex-start; /* סידור הטקסטים בצמוד לשמאל */
 }
 
 .symbolSpan {
     color: black;
-    display: block;
     font-size: 16px;
     font-weight: bold;
 }
 
 .symbolName {
-    display: block;
     color: rgba(0, 0, 0, 0.5);
     font-size: 14px;
 }
