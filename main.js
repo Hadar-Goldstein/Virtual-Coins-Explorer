@@ -3,7 +3,6 @@
 
 // Get DOM Elements
 const capacityModal = document.getElementById("capacityModal");
-const closeModal = document.getElementById("closeModal");
 
 // On Load 
 // *******
@@ -105,6 +104,8 @@ function selectedCoins(id) {
 
 function openModal() {
     const selectedCoinsList = document.getElementById("selectedCoinsList");
+    const errorModalDiv = document.getElementById("errorModalDiv");
+    errorModalDiv.style.display = "none";
 
     capacityModal.style.display = "flex";
     document.body.style.overflow = 'hidden';
@@ -119,11 +120,11 @@ function openModal() {
     }
     selectedCoinsList.innerHTML = content;
 
-    const closeModal = document.getElementById("closeModal");
-    closeModal.addEventListener("click", closeModalFunc);
+    const closeModalBtn = document.getElementById("closeModalBtn");
+    closeModalBtn.addEventListener("click", closeModal);
 }
 
-function closeModalFunc() {
+function closeModal() {
     for (let i = 0; i < coinsArray.length; i++) {
 
         const checkbox = document.getElementById(`checkbox-${coinsArray[i]}`);
@@ -136,6 +137,8 @@ function closeModalFunc() {
             i--;
         }
     }
+
+    console.log(coinsArray);
 
     if (coinsArray.length === 6) {
         $("#errorModalDiv").css("display", "flex");
