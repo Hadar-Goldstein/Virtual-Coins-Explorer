@@ -81,51 +81,67 @@ function displayMoreInfoCard(coin, id) {
 
 let coinsArray = [];
 let modal = document.getElementById("myModal");
-function selectedCoins(id){
+function selectedCoins(id) {
     const checkbox = document.getElementById(`${id}-toggle`);
     const isChecked = checkbox.checked;
-    console.log(isChecked); 
 
-    if(isChecked) {
+    if (isChecked) {
         const coin = id;
         coinsArray.push(coin);
-        console.log(coinsArray); 
     }
     else {
-        for(let i = 0; i < coinsArray.length; i++){
-            if(coinsArray[i] === id)
+        for (let i = 0; i < coinsArray.length; i++) {
+            if (coinsArray[i] === id)
                 coinsArray.splice(i, 1);
-            }
-        console.log(coinsArray); 
-
+        }
     }
 
-    if(coinsArray.length === 6){
-        modalHandling()
+    if (coinsArray.length === 6) {
+        openModal();
     }
 }
 
 
 
-function modalHandling() {
+function openModal() {
     const selectedCoinsList = document.getElementById("selectedCoinsList");
-    document.body.style.overflow = 'hidden';
+
     capacityModal.style.display = "flex";
+    document.body.style.overflow = 'hidden';
+
     let content = "";
-        for(const item of coinsArray){
-            content+= `
+    for (const item of coinsArray) {
+        content += `
             <div class="checkboxContainer">
-                <input type="checkbox" id="checkbox-${item}">
+                <input type="checkbox" id="checkbox-${item}" value="${item}">
                 <label for="checkbox-${item}">${item}</label><br>
             </div>`;
-        }
-
+    }
     selectedCoinsList.innerHTML = content;
 
-    if(closeModal){
-        closeModal.addEventListener("click", () => {
-            capacityModal.style.display = "none";
-            document.body.style.overflow = '';
-        });
+    const closeModal = document.getElementById("closeModal");
+    closeModal.addEventListener("click", closeModalFunc);
+}
+
+function closeModalFunc() {
+    for (let i = 0; i < coinsArray.length; i++) {
+
+        const checkbox = document.getElementById(`checkbox-${coinsArray[i]}`);
+        const value = checkbox.checked;
+
+        if (value === false) {
+            const toggle = document.getElementById(`${coinsArray[i]}-toggle`);
+            toggle.checked = false;
+            coinsArray.splice(i, 1);
+            i--;
+        }
+    }
+
+    if (coinsArray.length === 6) {
+        $("#errorModalDiv").css("display", "flex");
+    }
+    else{
+        capacityModal.style.display = "none";
+        document.body.style.overflow = '';
     }
 }

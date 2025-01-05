@@ -413,3 +413,7 @@ nav img {
     color: #007bff; 
   }
   
+  #errorModalDiv{
+    display: none;
+    color: red;
+  }
