@@ -136,13 +136,12 @@ function closeModal() {
             const toggle = document.getElementById(`${coinsArray[i]}-toggle`);
             toggle.checked = false;
             coinsArray.splice(i, 1);
-            i--;
         }
     }
 
     console.log(coinsArray);
 
-    if (coinsArray.length === 6) {
+    if (coinsArray.length > 5) {
         $("#errorModalDiv").css("display", "flex");
     }
     else{

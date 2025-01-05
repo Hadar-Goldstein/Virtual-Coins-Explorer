@@ -301,8 +301,9 @@ nav img {
 
 .coinInfo {
     display: flex;
-    flex-direction: column; /* סידור הטקסטים בטור */
-    align-items: flex-start; /* סידור הטקסטים בצמוד לשמאל */
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left; /* מוודא שהטקסט מיושר לשמאל */
 }
 
 .symbolSpan {
@@ -314,6 +315,7 @@ nav img {
 .symbolName {
     color: rgba(0, 0, 0, 0.5);
     font-size: 14px;
+    word-wrap: break-word;
 }
 
 /* Toggle Switch */
