@@ -245,7 +245,7 @@ nav img {
 /* Cards and Container */
 #cardsContainer {
     display: grid;
-    grid-template-columns: repeat(4, 1fr); /* 4 עמודות בגודל אחיד */
+    grid-template-columns: repeat(4, 1fr); 
     gap: 20px;
     width: 80%;
     margin: 20px auto;
@@ -261,8 +261,8 @@ nav img {
     flex-direction: column;
     justify-content: space-between;
     width: 100%;
-    height: 150px; /* גובה קבוע לכל כרטיס */
-    position: relative; /* מאפשר מיקום יחסי לתוך הכרטיס */
+    height: 150px; 
+    position: relative; 
 }
 
 .infoBtn {
@@ -284,38 +284,40 @@ nav img {
 
 .coinIdentity {
     display: flex;
-    align-items: flex-start; /* מוודא שהתמונה והטקסטים מתחילים בצמוד לשמאל */
-    gap: 10px; /* המרחק בין התמונה לטקסטים */
+    align-items: flex-start;
+    gap: 10px; 
 }
 
 .coinImage {
     display: flex;
-    justify-content: center; /* יש למרכז את התמונה */
+    justify-content: center; 
 }
 
 .coinImage img {
-    width: 30px; /* גודל התמונה */
-    height: 30px; /* גובה התמונה */
-    flex-shrink: 0; /* לא לאפשר לתמונה להתכווץ */
+    width: 30px; 
+    height: 30px; 
+    flex-shrink: 0; 
 }
 
 .coinInfo {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    text-align: left; /* מוודא שהטקסט מיושר לשמאל */
+    text-align: left; 
 }
 
 .symbolSpan {
     color: black;
     font-size: 16px;
     font-weight: bold;
+    margin-top: -7px; 
 }
 
 .symbolName {
     color: rgba(0, 0, 0, 0.5);
     font-size: 14px;
     word-wrap: break-word;
+    margin-top: -1px;
 }
 
 /* Toggle Switch */
@@ -336,8 +338,8 @@ nav img {
     outline: none; 
 }
 
-
-/* Modal Tests */
+/* ------------------------------------------------------------------------------ */
+/* Modal */
 .modalContainer{
     display: none;
     align-items: center;
@@ -412,7 +414,7 @@ nav img {
     margin-bottom: 10px;
     transition: background-color 0.3s ease;
     cursor: pointer; 
-    width: 100%; /* וודא שה-div תופס את כל רוחב העטיפה */
+    width: 100%; 
   }
   
   .checkboxContainer:hover {
@@ -422,9 +424,9 @@ nav img {
   
 
   .checkboxContainer label {
-    display: block; /* תווית שתופס את כל רוחב ה-div */
-    width: 100%; /* תווית תתפוס את כל רוחב ה-div */
-    margin-left: 10px; /* רווח מימין לאובייקט */
+    display: block; 
+    width: 100%; 
+    margin-left: 10px; 
     text-align: left;
   }
   
