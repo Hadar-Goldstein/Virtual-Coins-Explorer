@@ -40,10 +40,10 @@ async function getCoinsData() {
 function displayCoins(coins) {
     const cardsContainer = document.getElementById("cardsContainer");
     let content = "";
-    for (let i = 0; i <= coins.length; i++) {
+    for (let i = 0; i < coins.length; i++) {
         let coin = coins[i];
         content += `
-        <div class="card" id="${coin.id}">
+        <div class="card mb-3" style="width: 13.5rem;" id="${coin.id}">
             <div class="coinIdentity">
                 <span class="symbolSpan">${coin.symbol}</span>
                 <span class="symbolName">${coin.name}</span>
@@ -56,8 +56,6 @@ function displayCoins(coins) {
             <button onclick="getMoreInfo('${coin.id}')" class="infoBtn">More Information</button>
         </span>
         </div>`;
-        if (i === 20)
-            break;
     }
     cardsContainer.innerHTML += content;
 }
