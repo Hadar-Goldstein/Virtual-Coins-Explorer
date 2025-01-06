@@ -35,7 +35,55 @@ async function getCoinsData() {
     const response = await axios.get(url);
     const coins = response.data;
     displayCoins(coins);
+    saveCoinsFrontData(coins)
 }
+
+
+let coinsFrontData = new Map();
+
+function saveCoinsFrontData(coins) {
+    for(const item of coins) {
+        const key = item.id;
+        const image = item.image;
+        const symbol = item.symbol;
+        const name = item.name;
+        const coin = {image, symbol, name};
+        coinsFrontData.set(key, coin);
+    }
+
+    // coinsFrontData.forEach((value, key) => {
+    //     console.log(key, value);
+    // });
+}
+
+
+function displayCoinFrontCache(id) {
+    if (coinsFrontData.has(id)) {
+        const coin = coinsFrontData.get(id);
+        const cardElement = document.getElementById(id);
+        cardElement.innerHTML = `
+            <div class="coinIdentity">
+                <span class="coinImage"><img src="${coin.image}"></span>
+                <div class="coinInfo">
+                    <span class="symbolSpan">${coin.symbol}</span>
+                    <span class="symbolName">${coin.name}</span>
+                </div>
+                <div class="form-check form-switch">
+                    <input onclick="selectedCoins('${id}')" id="${id}-toggle" class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                </div>
+            </div>
+        <span>
+            <button onclick="backCardHandling('${id}')" class="infoBtn">More Information</button>
+        </span>
+        `;
+    }
+    else{
+        getMoreInfo(id);
+    }
+
+}
+
+
 
 function displayCoins(coins) {
     const cardsContainer = document.getElementById("cardsContainer");
@@ -55,7 +103,7 @@ function displayCoins(coins) {
                 </div>
             </div>
         <span>
-            <button onclick="getMoreInfo('${coin.id}')" class="infoBtn">More Information</button>
+            <button onclick="backCardHandling('${coin.id}')" class="infoBtn">More Information</button>
         </span>
         </div>`;
     }
@@ -68,6 +116,7 @@ async function getMoreInfo(id) {
     const response = await axios.get(url);
     const coin = response.data;
     displayMoreInfoCard(coin, id);
+    saveCoinPrices(coin, id);
 }
 
 function displayMoreInfoCard(coin, id) {
@@ -79,10 +128,81 @@ function displayMoreInfoCard(coin, id) {
         <span>${coin.market_data.current_price.ils} \u20AA</span>
     </div>
     <span>
-        <button onclick="getMoreInfo('${coin.id}')" class="infoBtn">Close</button>
+        <button onclick="displayCoinFrontCache('${coin.id}')" class="infoBtn">Close</button>
      </span>
     `;
 }
+
+let coinsPrices = new Map();
+
+function saveCoinPrices(coin, id) {
+    const eur = coin.market_data.current_price.eur;
+    const usd = coin.market_data.current_price.usd;
+    const ils = coin.market_data.current_price.ils;
+    const coinPrice = { eur, usd, ils };
+
+    coinsPrices.set(`${id}`, coinPrice);
+
+    coinsPrices.forEach((value, key) => {
+        console.log(key, value);
+    });
+}
+
+
+function displayFromCache(id) {
+    if (coinsPrices.has(`${id}`)) {
+        const coin = coinsPrices.get(`${id}`);
+        $(`#${id}`).html(`
+        <div class="coinPrice">
+            <span>${coin.eur} \u20AC</span>
+            <span>${coin.usd} \u0024</span>
+            <span>${coin.ils} \u20AA</span>
+        </div>
+        <span>
+            <button onclick="backCardHandling('${id}')" class="infoBtn">Close</button>
+        </span>
+        `);
+    }
+    else{
+        getMoreInfo(id);
+    }
+
+}
+
+let clickTimes = new Map();
+
+function backCardHandling(id) {
+    const currentClickTime = Date.now();
+
+    if(clickTimes.has(`${id}`)) {
+
+        const lastTimeClick = clickTimes.get(`${id}`);
+        const timeDiff = currentClickTime - lastTimeClick;
+        const updateTime = 120000;
+
+        if(timeDiff > updateTime) {
+            getMoreInfo(id);
+        }
+        else {
+            displayFromCache(id);
+        }
+
+    }
+    else {
+        clickTimes.set(`${id}`, `${currentClickTime}`);
+        getMoreInfo(id);
+    }
+}
+
+
+
+
+
+
+
+
+
+
 
 let coinsArray = [];
 let modal = document.getElementById("myModal");
@@ -148,7 +268,7 @@ function closeModal() {
     if (coinsArray.length > 5) {
         $("#errorModalDiv").css("display", "flex");
     }
-    else{
+    else {
         capacityModal.style.display = "none";
         document.body.style.overflow = '';
     }
@@ -157,25 +277,25 @@ function closeModal() {
 
 // Dynamic Search
 // **************
-$("#dynamicSearch").on("input", function() {
+$("#dynamicSearch").on("input", function () {
     // Get user input 
-    const userInput = $(this).val().toLowerCase(); 
+    const userInput = $(this).val().toLowerCase();
     let hasResults = false;
 
     // Check each symbol text in cards
-    $(".card").each(function() {
+    $(".card").each(function () {
         const cardSymbol = $(this).find(".symbolSpan");
-        const cardSymbolText = cardSymbol.text().toLowerCase(); 
+        const cardSymbolText = cardSymbol.text().toLowerCase();
         if (cardSymbolText.includes(userInput)) {
-            $(this).show(); 
+            $(this).show();
             hasResults = true;
         } else {
-            $(this).hide(); 
+            $(this).hide();
         }
     });
 
     // No result handling
-    if(!hasResults)
+    if (!hasResults)
         $(noResultsContainer).show();
     else
         $(noResultsContainer).hide();
@@ -184,6 +304,6 @@ $("#dynamicSearch").on("input", function() {
 
 // Clear Button 
 // ************
-$(".clearBtn").on("click",()=>{
+$(".clearBtn").on("click", () => {
     $("#dynamicSearch").val("").trigger("input");
 });
