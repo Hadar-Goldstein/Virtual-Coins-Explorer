@@ -54,7 +54,6 @@ function displayCoins(coins) {
                     <input onclick="selectedCoins('${coin.id}')" id="${coin.id}-toggle" class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
                 </div>
             </div>
-
         <span>
             <button onclick="getMoreInfo('${coin.id}')" class="infoBtn">More Information</button>
         </span>
@@ -74,9 +73,14 @@ async function getMoreInfo(id) {
 function displayMoreInfoCard(coin, id) {
     const coinDiv = document.getElementById(`${id}`);
     coinDiv.innerHTML = `
-    <span>${coin.market_data.current_price.eur} EUR</span>
-    <span>${coin.market_data.current_price.usd} USD</span>
-    <span>${coin.market_data.current_price.ils} ILS</span>
+     <div class="coinPrice">
+        <span>${coin.market_data.current_price.eur} \u20AC</span>
+        <span>${coin.market_data.current_price.usd} \u0024</span>
+        <span>${coin.market_data.current_price.ils} \u20AA</span>
+    </div>
+    <span>
+        <button onclick="getMoreInfo('${coin.id}')" class="infoBtn">Close</button>
+     </span>
     `;
 }
 
