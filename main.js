@@ -159,7 +159,7 @@ function displayFromCache(id) {
             <span>${coin.ils} \u20AA</span>
         </div>
         <span>
-            <button onclick="backCardHandling('${id}')" class="infoBtn">Close</button>
+            <button onclick="displayCoinFrontCache('${id}')" class="infoBtn">Close</button>
         </span>
         `);
     }
