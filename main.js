@@ -153,33 +153,12 @@ function closeModal() {
 
 // Dynamic Search
 // **************
-
-// const dynamicSearch = document.getElementById("dynamicSearch");
-// dynamicSearch.addEventListener("input", ()=>{
-
-//     const userInput = dynamicSearch.value.toLowerCase();
-//     const coinCards = document.querySelectorAll(".card");
-
-//     coinCards.forEach(card => {
-//         const cardSymbol = card.querySelector(".symbolSpan");
-//         const cardSymbolText = cardSymbol.textContent.toLowerCase();
-//         if(cardSymbolText.includes(userInput)){
-//             card.style.display = "";
-//         }
-//         else {
-//             card.style.display = "none";
-//         }
-
-//     });
-
-
-// });
-
-
 $("#dynamicSearch").on("input", function() {
+    // Get user input 
     const userInput = $(this).val().toLowerCase(); 
     let hasResults = false;
 
+    // Check each symbol text in cards
     $(".card").each(function() {
         const cardSymbol = $(this).find(".symbolSpan");
         const cardSymbolText = cardSymbol.text().toLowerCase(); 
@@ -191,8 +170,16 @@ $("#dynamicSearch").on("input", function() {
         }
     });
 
+    // No result handling
     if(!hasResults)
         $(noResultsContainer).show();
     else
         $(noResultsContainer).hide();
+});
+
+
+// Clear Button 
+// ************
+$(".clearBtn").on("click",()=>{
+    $("#dynamicSearch").val("").trigger("input");
 });
