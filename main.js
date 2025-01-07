@@ -411,3 +411,9 @@ async function loadSVG(id) {
         "margin": "auto"
     });
 }
+
+
+// Bonus Test
+
+const url = "https://min-api.cryptocompare.com/data/pricemulti?fsyms=BTC,ETH&tsyms=USD,EUR";
+const apiKey = "de74120914e79001714c5592aac92671b8bacbf2f50377763b1e657b292277d8";
