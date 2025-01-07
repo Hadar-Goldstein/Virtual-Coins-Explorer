@@ -78,13 +78,13 @@ let clickTimes = new Map();
 function backCardHandling(id) {
     const currentClickTime = Date.now();
 
-    if(clickTimes.has(id)) {
+    if (clickTimes.has(id)) {
         const lastTimeClick = clickTimes.get(id);
         const timeDiff = currentClickTime - lastTimeClick;
         console.log(`time diff = ${timeDiff / 60000}`);
         const updateTime = 120000;
 
-        if(timeDiff > updateTime) {
+        if (timeDiff > updateTime) {
             clickTimes.set(id, currentClickTime);
             getMoreInfo(id);
         }
@@ -100,19 +100,17 @@ function backCardHandling(id) {
 }
 
 
-
-
 // Save front-card data 
 // ********************
 let coinsFrontData = new Map();
 
 function saveCoinsFrontData(coins) {
-    for(const item of coins) {
+    for (const item of coins) {
         const key = item.id;
         const image = item.image;
         const symbol = item.symbol;
         const name = item.name;
-        const coin = {image, symbol, name};
+        const coin = { image, symbol, name };
         coinsFrontData.set(key, coin);
     }
 
@@ -144,7 +142,7 @@ function displayCoinFrontCache(id) {
         </span>
         `;
     }
-    else{
+    else {
         getMoreInfo(id);
     }
 
@@ -154,12 +152,20 @@ function displayCoinFrontCache(id) {
 // Get back-card data from API
 // ****************************
 async function getMoreInfo(id) {
+    loadSVG(id);
     const url = `https://api.coingecko.com/api/v3/coins/${id}`;
     const response = await axios.get(url);
     const coin = response.data;
+
+
+    $(`#${id}`).html("");
+    // const coinDiv = document.getElementById(id);
+    // coinDiv.innerHTML = "";  // מנקה את ה-SVG ומכין מקום לתצוגת מחירים
+
     console.log("display price from API executed");
     displayMoreInfoCard(coin, id);
     saveCoinPrices(coin, id);
+
 }
 
 
@@ -216,7 +222,7 @@ function displayFromCache(id) {
         </span>
         `);
     }
-    else{
+    else {
         getMoreInfo(id);
     }
 
@@ -331,3 +337,21 @@ $(".clearBtn").on("click", () => {
     $("#dynamicSearch").val("").trigger("input");
 });
 
+
+
+async function loadSVG(id) {
+    const url = "assets/test2.svg";
+    const response = await axios.get(url);
+    const svg = response.data;
+    // Set SVG to specific card
+    $(`#${id}`).html(`${svg}`);
+
+    // SVG CSS to make sure its inside the card
+    const svgElement = $(`#${id}`).find('svg');
+    svgElement.css({
+        "max-width": "100%",
+        "max-height": "100%",
+        "display": "block",
+        "margin": "auto"
+    });
+}
