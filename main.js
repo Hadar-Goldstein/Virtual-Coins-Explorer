@@ -24,7 +24,38 @@ $(window).scroll(() => {
 
 // --------------------------------------------------------------------------------------------------
 
+function getDisplayList() {
+    // Check user choices 
+    const eur = document.getElementById(`eur`);
+    const usd = document.getElementById(`usd`);
+    const ils = document.getElementById(`ils`);
 
+    let optionsList = new Map;
+
+    const eurChecked = eur.checked;
+    optionsList.set("eur", eurChecked);
+    const usdChecked = usd.checked;
+    optionsList.set("usd", usdChecked);
+    const ilsChecked = ils.checked;
+    optionsList.set("ils", ilsChecked);
+
+    let displayList = [];
+    optionsList.forEach((value, key) => {
+        if(value === true)
+            displayList.push(key);
+    });
+
+    // If all false display all types
+    if(displayList.length === 0){
+        displayList = ["eur", "usd", "ils"];
+    }
+
+    return displayList;
+}
+
+
+
+// --------------------------------------------------------------------------------------------------
 // On Load 
 // *******
 window.onload = function () {
@@ -157,7 +188,6 @@ async function getMoreInfo(id) {
     const response = await axios.get(url);
     const coin = response.data;
 
-
     $(`#${id}`).html("");
     // const coinDiv = document.getElementById(id);
     // coinDiv.innerHTML = "";  // מנקה את ה-SVG ומכין מקום לתצוגת מחירים
@@ -168,17 +198,36 @@ async function getMoreInfo(id) {
 
 }
 
+const priceSymbols = new Map();
+priceSymbols.set("eur", "\u20AC");
+priceSymbols.set("usd", "\u0024");
+priceSymbols.set("ils", "\u20AA");
+
 
 // Display back-card data based on API data
 // ****************************************
 function displayMoreInfoCard(coin, id) {
+
+
+    const displayList = getDisplayList(); 
+    const apiObj = "market_data.current_price";
+
+    let content = "";
+    for (const item of displayList) {
+        const symbol = priceSymbols.get(item); 
+        const path = `${apiObj}.${item}`; 
+
+        const keys = path.split("."); 
+        const apiData = keys.reduce((obj, key) => obj && obj[key], coin);
+
+        content += `
+        <span>${apiData} ${symbol}</span>
+        `;
+    }
+
     const coinDiv = document.getElementById(`${id}`);
-    coinDiv.innerHTML = `
-     <div class="coinPrice">
-        <span>${coin.market_data.current_price.eur} \u20AC</span>
-        <span>${coin.market_data.current_price.usd} \u0024</span>
-        <span>${coin.market_data.current_price.ils} \u20AA</span>
-    </div>
+    coinDiv.innerHTML = 
+    `<div class="coinPrice">${content}</div>
     <span>
         <button onclick="displayCoinFrontCache('${coin.id}')" class="infoBtn">Close</button>
      </span>
