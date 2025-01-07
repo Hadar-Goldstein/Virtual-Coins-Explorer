@@ -41,12 +41,12 @@ function getDisplayList() {
 
     let displayList = [];
     optionsList.forEach((value, key) => {
-        if(value === true)
+        if (value === true)
             displayList.push(key);
     });
 
     // If all false display all types
-    if(displayList.length === 0){
+    if (displayList.length === 0) {
         displayList = ["eur", "usd", "ils"];
     }
 
@@ -209,15 +209,15 @@ priceSymbols.set("ils", "\u20AA");
 function displayMoreInfoCard(coin, id) {
 
 
-    const displayList = getDisplayList(); 
+    const displayList = getDisplayList();
     const apiObj = "market_data.current_price";
 
     let content = "";
     for (const item of displayList) {
-        const symbol = priceSymbols.get(item); 
-        const path = `${apiObj}.${item}`; 
+        const symbol = priceSymbols.get(item);
+        const path = `${apiObj}.${item}`;
 
-        const keys = path.split("."); 
+        const keys = path.split(".");
         const apiData = keys.reduce((obj, key) => obj && obj[key], coin);
 
         content += `
@@ -226,15 +226,13 @@ function displayMoreInfoCard(coin, id) {
     }
 
     const coinDiv = document.getElementById(`${id}`);
-    coinDiv.innerHTML = 
-    `<div class="coinPrice">${content}</div>
+    coinDiv.innerHTML =
+        `<div class="coinPrice">${content}</div>
     <span>
         <button onclick="displayCoinFrontCache('${coin.id}')" class="infoBtn">Close</button>
      </span>
     `;
 }
-
-
 
 // Save back-card data 
 // ********************
@@ -258,24 +256,33 @@ function saveCoinPrices(coin, id) {
 // *********************************
 function displayFromCache(id) {
     console.log("display price from cache executed");
-    if (coinsPrices.has(`${id}`)) {
-        const coin = coinsPrices.get(`${id}`);
-        $(`#${id}`).html(`
-        <div class="coinPrice">
-            <span>${coin.eur} \u20AC</span>
-            <span>${coin.usd} \u0024</span>
-            <span>${coin.ils} \u20AA</span>
-        </div>
-        <span>
-            <button onclick="displayCoinFrontCache('${id}')" class="infoBtn">Close</button>
-        </span>
-        `);
-    }
-    else {
+
+    if (!coinsPrices.has(id)) {
         getMoreInfo(id);
     }
 
-}
+    const displayList = getDisplayList();
+
+
+    let content = "";
+    for (const item of displayList) {
+        const symbol = priceSymbols.get(item);
+        const pricesObj = coinsPrices.get(id);
+        const price = pricesObj[item];
+
+        content += `
+            <span>${price} ${symbol}</span>
+            `;
+    }
+
+    const coinDiv = document.getElementById(`${id}`);
+    coinDiv.innerHTML =`
+        <div class="coinPrice">${content}</div>
+        <span>
+            <button onclick="displayCoinFrontCache('${id}')" class="infoBtn">Close</button>
+        </span>
+        `;
+    }
 
 
 // Modal Handling
