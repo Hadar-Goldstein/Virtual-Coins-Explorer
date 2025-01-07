@@ -112,7 +112,88 @@ nav img {
 }
 
 /* Coins Buttons */
+
+.coinCheckbox {
+    display: none;
+}
+
+.coinCheckbox:checked + label.eurBtn {
+    border: 2px solid #4caf50; 
+}
+
+.coinCheckbox:checked + label.usdBtn {
+    border: 2px solid #4caf50;
+}
+
+.coinCheckbox:checked + label.ilsBtn {
+    border: 2px solid #4caf50;
+}
+
+.eurBtn, .usdBtn, .ilsBtn {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.3s ease;
+    border: 1px solid #fff; 
+}
+
+.eurBtn {
+    background-image: url('assets/images/european-union-flag.png');
+}
+
+.usdBtn {
+    background-image: url('assets/images/usa-flag.png');
+}
+
+.ilsBtn {
+    background-image: url('assets/images/israel-flag.png');
+}
+
+.eurBtn:hover, .usdBtn:hover, .ilsBtn:hover {
+    transform: scale(1.1);
+    border: 1px solid black;
+}
+
+/* Tooltip */
+.eurBtn::after, .usdBtn::after, .ilsBtn::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    top: -32px; 
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 5px;
+    background-color: #333;
+    color: white;
+    border-radius: 4px;
+    font-size: 12px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease;
+    z-index: 1;
+}
+
+.eurBtn:hover::after, .usdBtn:hover::after, .ilsBtn:hover::after {
+    opacity: 1;
+    visibility: visible;
+}
+
+.eurBtn:hover::after, .usdBtn:hover::after, .ilsBtn:hover::after {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
 .roundBtn {
+    position: relative;
+}
+
+
+/* .roundBtn {
     width: 30px;
     height: 30px;
     border-radius: 50%; 
@@ -206,7 +287,7 @@ nav img {
 .ilsBtn:hover::after {
     opacity: 1;
     visibility: visible;
-}
+} */
 
 
 /* Input Box */

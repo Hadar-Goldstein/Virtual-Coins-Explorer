@@ -31,9 +31,21 @@
     <main>
 
         <nav class="navbar">
-            <div class="roundBtn eurBtn"></div>
-            <div class="roundBtn usdBtn"></div>
-            <div class="roundBtn ilsBtn"></div>
+            <div class="roundBtn">
+                <input type="checkbox" class="coinCheckbox" id="eur" />
+                <label for="eur" class="eurBtn" data-tooltip="EUR"></label>
+            </div>
+            
+            <div class="roundBtn">
+                <input type="checkbox" class="coinCheckbox" id="usd" />
+                <label for="usd" class="usdBtn" data-tooltip="USD"></label>
+            </div>
+            
+            <div class="roundBtn">
+                <input type="checkbox" class="coinCheckbox" id="ils" />
+                <label for="ils" class="ilsBtn" data-tooltip="ILS"></label>
+            </div>
+            
         
             <input type="text" placeholder="Search" class="input-field" id="dynamicSearch">
             <button class="clearBtn">Clear</button>
