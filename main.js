@@ -40,7 +40,7 @@ async function getCoinsData() {
     const response = await axios.get(url);
     const coins = response.data;
     displayCoins(coins);
-    saveCoinsFrontData(coins)
+    saveCoinsFrontData(coins);
 }
 
 
@@ -49,14 +49,13 @@ async function getCoinsData() {
 function displayCoins(coins) {
     const cardsContainer = document.getElementById("cardsContainer");
     let content = "";
-    for (let i = 0; i < coins.length; i++) {
-        let coin = coins[i];
+    for (const coin of coins) {
         content += `
         <div class="card mb-3" style="width: 13.5rem;" id="${coin.id}">
             <div class="coinIdentity">
                 <span class="coinImage"><img src="${coin.image}"></span>
                 <div class="coinInfo">
-                    <span class="symbolSpan">${coin.symbol}</span>
+                    <span class="symbolSpan">${coin.symbol.toUpperCase()}</span>
                     <span class="symbolName">${coin.name}</span>
                 </div>
                 <div class="form-check form-switch">
@@ -79,13 +78,14 @@ let clickTimes = new Map();
 function backCardHandling(id) {
     const currentClickTime = Date.now();
 
-    if(clickTimes.has(`${id}`)) {
-
-        const lastTimeClick = clickTimes.get(`${id}`);
+    if(clickTimes.has(id)) {
+        const lastTimeClick = clickTimes.get(id);
         const timeDiff = currentClickTime - lastTimeClick;
+        console.log(`time diff = ${timeDiff / 60000}`);
         const updateTime = 120000;
 
         if(timeDiff > updateTime) {
+            clickTimes.set(id, currentClickTime);
             getMoreInfo(id);
         }
         else {
@@ -94,7 +94,7 @@ function backCardHandling(id) {
 
     }
     else {
-        clickTimes.set(`${id}`, `${currentClickTime}`);
+        clickTimes.set(id, currentClickTime);
         getMoreInfo(id);
     }
 }
@@ -132,7 +132,7 @@ function displayCoinFrontCache(id) {
             <div class="coinIdentity">
                 <span class="coinImage"><img src="${coin.image}"></span>
                 <div class="coinInfo">
-                    <span class="symbolSpan">${coin.symbol}</span>
+                    <span class="symbolSpan">${coin.symbol.toUpperCase()}</span>
                     <span class="symbolName">${coin.name}</span>
                 </div>
                 <div class="form-check form-switch">
@@ -157,6 +157,7 @@ async function getMoreInfo(id) {
     const url = `https://api.coingecko.com/api/v3/coins/${id}`;
     const response = await axios.get(url);
     const coin = response.data;
+    console.log("display price from API executed");
     displayMoreInfoCard(coin, id);
     saveCoinPrices(coin, id);
 }
@@ -192,15 +193,16 @@ function saveCoinPrices(coin, id) {
 
     coinsPrices.set(`${id}`, coinPrice);
 
-    coinsPrices.forEach((value, key) => {
-        console.log(key, value);
-    });
+    // coinsPrices.forEach((value, key) => {
+    //     console.log(key, value);
+    // });
 }
 
 
 // Display back-card via local data
 // *********************************
 function displayFromCache(id) {
+    console.log("display price from cache executed");
     if (coinsPrices.has(`${id}`)) {
         const coin = coinsPrices.get(`${id}`);
         $(`#${id}`).html(`
