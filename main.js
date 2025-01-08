@@ -464,9 +464,11 @@ $("#liveReportsLink").on("click", ()=>{
         if(counter === length)
             string+= `${coinSymbol}`;
         else
-            string+= `${coinSymbol}, `;
+            string+= `${coinSymbol},`;
     }
 
-    const json = JSON.stringify(string);
+    const saveString = string.toUpperCase();
+
+    const json = JSON.stringify(saveString);
     localStorage.setItem("symbolsString", json);
 });
