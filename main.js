@@ -449,3 +449,24 @@ function setStorageToggles() {
         checkbox.checked = true;
     }
 }
+
+$("#liveReportsLink").on("click", ()=>{
+
+    loadStorageData();
+    let string = "";
+    const length = coinsArray.length;
+    let counter = 0;
+    for(const item of coinsArray) {
+        counter++;
+        const coinObj = coinsFrontData.get(item);
+        const coinSymbol = coinObj.symbol;
+
+        if(counter === length)
+            string+= `${coinSymbol}`;
+        else
+            string+= `${coinSymbol}, `;
+    }
+
+    const json = JSON.stringify(string);
+    localStorage.setItem("symbolsString", json);
+});
