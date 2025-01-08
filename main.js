@@ -80,6 +80,7 @@ async function getCoinsData() {
     const coins = response.data;
     displayCoins(coins);
     saveCoinsFrontData(coins);
+    setStorageToggles();
 }
 
 
@@ -425,3 +426,25 @@ async function loadSVG(id) {
 
 const url = "https://min-api.cryptocompare.com/data/pricemulti?fsyms=BTC,ETH&tsyms=USD,EUR";
 const apiKey = "de74120914e79001714c5592aac92671b8bacbf2f50377763b1e657b292277d8";
+
+// Local Storage save
+// ******************
+function saveInStorage() {
+    const json = JSON.stringify(coinsArray);
+    localStorage.setItem("selectedCoins", json);
+}
+
+function loadStorageData() {
+    const selectedCoinsJson = localStorage.getItem("selectedCoins");
+    if (selectedCoinsJson) {
+        coinsArray = JSON.parse(selectedCoinsJson);
+    }
+}
+
+function setStorageToggles() {
+    loadStorageData();
+    for(const item of coinsArray) {
+        const checkbox = document.getElementById(`${item}-toggle`);
+        checkbox.checked = true;
+    }
+}
