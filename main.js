@@ -70,7 +70,6 @@ $(function() {
 
 
 
-
 // Get front-card data from API
 // ****************************
 async function getCoinsData() {
