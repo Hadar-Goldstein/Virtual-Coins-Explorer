@@ -58,9 +58,17 @@ function getDisplayList() {
 // --------------------------------------------------------------------------------------------------
 // On Load 
 // *******
-window.onload = function () {
+
+$(function() {
+    // Once the Website is loaded run code
     getCoinsData();
-};
+
+    $("#coinsLink").on("click", function() {
+        getCoinsData();
+    });
+});
+
+
 
 
 // Get front-card data from API
