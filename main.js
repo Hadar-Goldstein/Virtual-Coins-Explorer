@@ -312,6 +312,8 @@ function selectedCoins(id) {
                 coinsArray.splice(i, 1);
         }
     }
+    
+    saveInStorage();
 
     if (coinsArray.length > 5) {
         openModal();
@@ -353,7 +355,7 @@ function closeModal() {
             coinsArray.splice(i, 1);
         }
     }
-
+    saveInStorage();
     console.log(coinsArray);
 
     if (coinsArray.length > 5) {
