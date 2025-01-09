@@ -106,7 +106,6 @@ window.onload = function () {
     const dataArray = getDataArray();
 
     const options = {
-        exportEnabled: true,
         animationEnabled: true,
         title: {
             text: "Coins Live Reports"
