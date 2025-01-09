@@ -376,11 +376,17 @@ nav img {
     text-align: center; 
     transition: transform 0.3s ease;
     font-size: 14px;
-    margin: 15px auto;
 }
 
 .modal-content button:hover {
     transform: scale(1.05); 
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 20px;
 }
 
 #selectedCoinsList {
@@ -429,6 +435,7 @@ nav img {
   #errorModalDiv{
     display: none;
     color: red;
+    margin: 0 auto;
   }
 
 
