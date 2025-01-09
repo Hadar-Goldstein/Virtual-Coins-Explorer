@@ -73,13 +73,19 @@ $(function() {
 // Get front-card data from API
 // ****************************
 async function getCoinsData() {
-    // const url = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd";
-    const url = "coins.json";
-    const response = await axios.get(url);
-    const coins = response.data;
-    displayCoins(coins);
-    saveCoinsFrontData(coins);
-    setStorageToggles();
+    try {
+        // const url = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd";
+        const url = "coins.json";
+        const response = await axios.get(url);
+        const coins = response.data;
+        displayCoins(coins);
+        saveCoinsFrontData(coins);
+        setStorageToggles();
+    }
+    catch(err) {
+        console.log("Can't get data from API");
+        alert(err.message);
+    }
 }
 
 
@@ -191,18 +197,22 @@ function displayCoinFrontCache(id) {
 // Get back-card data from API
 // ****************************
 async function getMoreInfo(id) {
-    loadSVG(id);
-    const url = `https://api.coingecko.com/api/v3/coins/${id}`;
-    const response = await axios.get(url);
-    const coin = response.data;
-
-    $(`#${id}`).html("");
-    // const coinDiv = document.getElementById(id);
-    // coinDiv.innerHTML = "";  // מנקה את ה-SVG ומכין מקום לתצוגת מחירים
-
-    console.log("display price from API executed");
-    displayMoreInfoCard(coin, id);
-    saveCoinPrices(coin, id);
+    try {
+        loadSVG(id);
+        const url = `https://api.coingecko.com/api/v3/coins/${id}`;
+        const response = await axios.get(url);
+        const coin = response.data;
+        
+        $(`#${id}`).html("");
+        
+        console.log("display price from API executed");
+        displayMoreInfoCard(coin, id);
+        saveCoinPrices(coin, id);
+    }
+    catch(err) {
+        console.log("Can't get data from API");
+        alert(err.message);
+    }
 
 }
 

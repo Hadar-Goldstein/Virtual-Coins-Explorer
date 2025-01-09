@@ -1,8 +1,6 @@
+/// <reference path="jquery-3.7.1.js"/>
 "use strict";
 
-// הגדרת משתנים
-let chart;
-let coinDataPoints = {}; // מגדיר coinDataPoints מחוץ לפונקציות
 
 // Parallax Animation 
 // ******************
@@ -18,24 +16,24 @@ $(window).scroll(() => {
         $("nav a").css("color", "#d9d9d9");
 });
 
-// קבלת נתונים מה-localStorage
-const selectedCoinsIds = JSON.parse(localStorage.getItem('selectedCoins'));
-console.log(selectedCoinsIds);
 
+// Get Data from local storage
 const symbolsString = JSON.parse(localStorage.getItem('symbolsString'));
 console.log(typeof symbolsString);
 
+// Create string for chart'a subtitle
 const splitted = symbolsString.split(",");
 const subtitle = splitted.join(", ");
-console.log(subtitle);
 
-// פונקציה להחזרת מערך הנתונים
+// Create Static Data for chart
+let coinDataPoints = {};
+
 function getDataArray() {
+
     const dataArray = [];
     const coins = subtitle.split(", ");
 
     for (const coin of coins) {
-        // צור מערך dataPoints עבור כל מטבע
         coinDataPoints[coin] = [];
 
         const obj = {
@@ -46,58 +44,63 @@ function getDataArray() {
             yValueFormatString: "$#,##0.#",
             dataPoints: coinDataPoints[coin]
         };
+
         dataArray.push(obj);
     }
-    console.log(dataArray);
+
+    // console.log(dataArray);
     return dataArray;
 }
 
-// פונקציה לקבלת הזמן הנוכחי
-function getCurrentTime() {
-    const now = new Date();
-    let hours = now.getHours();
-    const minutes = now.getMinutes().toString().padStart(2, '0');
-    const seconds = now.getSeconds().toString().padStart(2, '0');
-    const amPm = hours >= 12 ? 'PM' : 'AM';
 
-    hours = hours % 12 || 12;
-    hours = hours.toString().padStart(2, '0');
-
-    return `${hours}:${minutes}:${seconds} ${amPm}`;
-}
-
-// פונקציה לקבלת נתונים מה-API
 function getDataFromApi() {
     setInterval(async function () {
-        const url = `https://min-api.cryptocompare.com/data/pricemulti?fsyms=${symbolsString}&tsyms=USD`;
-        const response = await axios.get(url);
-        const pricesObj = response.data;
-        console.log("Data received from API: ", pricesObj);
-        updateGraphData(pricesObj);
+        try {
+            const apiKey = "de74120914e79001714c5592aac92671b8bacbf2f50377763b1e657b292277d8";
+            const url = `https://min-api.cryptocompare.com/data/pricemulti?fsyms=${symbolsString}&tsyms=USD&api_key=${apiKey}`;
+            const response = await axios.get(url);
+            const pricesObj = response.data;
+
+            // console.log("Data received from API: ", pricesObj);
+
+            updateChartData(pricesObj);
+        }
+        catch(err) {
+            console.log("Can't get data from API");
+            alert(err.message);
+        }
     }, 2000);
 }
 
-// פונקציה לעדכון נתוני הגרף
-function updateGraphData(pricesObj) {
+// Update Chart 
+function updateChartData(pricesObj) {
     for (const coin in pricesObj) {
+
         if (coinDataPoints[coin]) {
+
             const yValue = pricesObj[coin].USD;
             const currentTime = new Date();
-            // הוסף את הנתונים ל־dataPoints של המטבע המתאים
+
             coinDataPoints[coin].push({
                 x: currentTime,
                 y: yValue
             });
-            console.log(`Updated ${coin}: ${yValue} at ${currentTime}`);
+
+            // Handling up to 100 points 
+            if (coinDataPoints[coin].length > 100) {
+                coinDataPoints[coin].shift();
+            }
         }
     }
+    // console.log("Data points for all coins:", coinDataPoints);
 
-
-    $("#chartContainer").CanvasJSChart().render();
-    
+    chart.render();
 }
 
-// פונקציה אשר קוראת כאשר הדף נטען
+
+
+// JQuery`s function 
+let chart;
 window.onload = function () {
     const dataArray = getDataArray();
 
@@ -118,7 +121,7 @@ window.onload = function () {
             titleFontColor: "#4F81BC",
             lineColor: "#4F81BC",
             labelFontColor: "#4F81BC",
-            tickColor: "#4F81BC"
+            tickColor: "#4F81BC",
         },
         toolTip: {
             shared: true
@@ -130,10 +133,10 @@ window.onload = function () {
         data: dataArray
     };
 
-    // יצירת הגרף
-    chart = $("#chartContainer").CanvasJSChart(options);
+    // Chart creation
+    chart = $("#chartContainer").CanvasJSChart(options).CanvasJSChart();
 
-    // פונקציה לניהול הצגת/הסתרת סדרות נתונים
+
     function toggleDataSeries(e) {
         if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
             e.dataSeries.visible = false;
@@ -143,6 +146,6 @@ window.onload = function () {
         e.chart.render();
     }
 
-    // אתחול קריאת הנתונים מה-API
+    // Set data 
     getDataFromApi();
 }
