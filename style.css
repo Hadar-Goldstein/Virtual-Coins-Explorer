@@ -450,3 +450,75 @@ nav img {
     min-height: 300px;
     position: absolute;
   }
+
+
+  /* About */
+
+  .aboutSite, .aboutCreator {
+    display: flex;
+    align-items: center; 
+    gap: 20px; 
+    margin: 20px 0; 
+}
+
+.aboutSite .aboutImg {
+    order: -1; 
+}
+
+.aboutCreator .aboutImg {
+    order: 1; 
+}
+
+.aboutSite p, .aboutCreator p {
+    margin: 0; 
+    line-height: 1.6; 
+}
+
+.aboutSite p {
+    text-align: left; 
+}
+
+.aboutCreator {
+    justify-content: flex-end; 
+}
+
+.aboutCreator p {
+    text-align: left; 
+}
+
+.aboutImg {
+    width: 200px; 
+    height: auto; 
+    border-radius: 8px; 
+}
+
+/* About Adjust to small display */
+@media (max-width: 768px) {
+    .aboutSite, .aboutCreator {
+        flex-direction: column;
+        align-items: center; 
+        gap: 10px; 
+    }
+
+    .aboutImg {
+        width: 150px; 
+    }
+
+    .aboutSite p, .aboutCreator p {
+        text-align: center; 
+    }
+
+    .aboutCreator .aboutImg {
+        order: -1; 
+    }
+}
+
+@media (max-width: 480px) {
+    .aboutImg {
+        width: 120px; 
+    }
+
+    .aboutSite, .aboutCreator {
+        gap: 5px; 
+    }
+}

@@ -16,6 +16,7 @@ $(window).scroll(() => {
         $("nav a").css("color", "#d9d9d9");
 });
 
+// --------------------------------------------------------------------------------------------------
 
 // Get Data from local storage
 const symbolsString = JSON.parse(localStorage.getItem('symbolsString'));
