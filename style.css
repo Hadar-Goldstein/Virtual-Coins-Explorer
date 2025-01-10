@@ -140,6 +140,7 @@ nav img {
     position: relative;
     transition: transform 0.3s ease;
     border: 1px solid #fff; 
+    margin-top: 5px;
 }
 
 .eurBtn {
