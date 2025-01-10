@@ -341,7 +341,7 @@ function openModal() {
     let content = "";
     for (const item of coinsArray) {
         const cardSymbol = $(`#${item}`).find(".symbolSpan");
-        
+
         content += `
             <div class="checkboxContainer">
                 <input type="checkbox" id="checkbox-${item}" value="${item}">
@@ -433,6 +433,17 @@ $(".clearBtn").on("click", () => {
     $("#dynamicSearch").val("").trigger("input");
 });
 
+// Clear Coins Button
+// ******************
+$(".clearSelectionBtn").on("click", () => {
+    for (let i = 0; i < coinsArray.length; i++) {
+        const toggle = document.getElementById(`${coinsArray[i]}-toggle`);
+        toggle.checked = false;
+    }
+
+    coinsArray = [];
+    saveInStorage();
+});
 
 
 async function loadSVG(id) {
