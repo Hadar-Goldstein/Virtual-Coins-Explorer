@@ -340,16 +340,22 @@ function openModal() {
 
     let content = "";
     for (const item of coinsArray) {
+        const cardSymbol = $(`#${item}`).find(".symbolSpan");
+        
         content += `
             <div class="checkboxContainer">
                 <input type="checkbox" id="checkbox-${item}" value="${item}">
-                <label for="checkbox-${item}">${item}</label><br>
+                <label for="checkbox-${item}">${cardSymbol.text()}</label><br>
             </div>`;
     }
     selectedCoinsList.innerHTML = content;
 
     const closeModalBtn = document.getElementById("closeModalBtn");
     closeModalBtn.addEventListener("click", closeModal);
+
+    
+    const cancelModalBtn = document.getElementById("cancelModalBtn");
+    cancelModalBtn.addEventListener("click", cancelModal);
 }
 
 function closeModal() {
@@ -358,7 +364,7 @@ function closeModal() {
         const checkbox = document.getElementById(`checkbox-${coinsArray[i]}`);
         const value = checkbox.checked;
 
-        if (value === false) {
+        if (value === true) {
             const toggle = document.getElementById(`${coinsArray[i]}-toggle`);
             toggle.checked = false;
             coinsArray.splice(i, 1);
@@ -374,6 +380,20 @@ function closeModal() {
         capacityModal.style.display = "none";
         document.body.style.overflow = '';
     }
+}
+
+function cancelModal() {
+
+    const lastSelection = coinsArray[coinsArray.length - 1];
+    const toggle = document.getElementById(`${lastSelection}-toggle`);
+    toggle.checked = false;
+    coinsArray.splice((coinsArray.length - 1), 1);
+
+    saveInStorage();
+    console.log(coinsArray);
+
+    capacityModal.style.display = "none";
+    document.body.style.overflow = '';
 }
 
 
