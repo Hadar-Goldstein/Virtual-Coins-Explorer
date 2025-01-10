@@ -359,7 +359,7 @@ function openModal() {
 }
 
 function closeModal() {
-    for (let i = 0; i < coinsArray.length; i++) {
+    for (let i = (coinsArray.length -1); i >= 0; i--) {
 
         const checkbox = document.getElementById(`checkbox-${coinsArray[i]}`);
         const value = checkbox.checked;
