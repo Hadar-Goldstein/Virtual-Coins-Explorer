@@ -159,32 +159,14 @@ body {
 }
 
 /* For very small screens (smaller mobile devices) */
-@media (max-width: 480px) {
-    .parallaxBg {
-        background-size: 100% 100%; /* התמונה ממלאת את המסך בלי חיתוך */
-    }
-
+@media only screen and (max-width: 768px) {
     .parallaxImage {
-        background-size: 100% 100%; /* הקטנה מוחלטת של התמונה */
-    }
-
-    .parallaxContainer {
-        height: 60vh; /* גובה נמוך יותר במוביילים קטנים */
-    }
-}
-
-/* For larger screens (tablets and up) */
-@media (min-width: 1024px) {
-    .parallaxContainer {
-        height: 100vh; /* חזרה לגובה 100% במסכים גדולים */
+        background-size: cover;  /* Keeps the image filling the area */
+        background-position: center center;  /* Keeps the image centered */
     }
 
     .parallaxBg {
-        background-size: cover; /* שימוש ב-cover כדי שהתמונה תכסה את כל הרקע */
-    }
-
-    .parallaxImage {
-        background-size: cover;
+        background-size: contain;  /* Ensures the background image doesn't stretch */
     }
 }
 
