@@ -159,17 +159,27 @@ body {
 }
 
 /* For very small screens (smaller mobile devices) */
+/* Mobile responsive adjustments */
 @media only screen and (max-width: 768px) {
+    /* Parallax image in mobile */
     .parallaxImage {
-        background-size: cover;  /* Keeps the image filling the area */
-        background-position: center center;  /* Keeps the image centered */
+        background-size: contain;  /* Prevents stretching */
+        background-position: center center;  /* Ensures the image is centered */
+        height: auto;  /* Adjusts the height for mobile view */
     }
 
+    /* Parallax background in mobile */
     .parallaxBg {
-        background-size: contain;  /* Ensures the background image doesn't stretch */
+        background-size: contain;  /* Prevents stretching */
+        background-position: center center;
+        background-attachment: scroll;  /* Disables fixed background */
+    }
+
+    /* Ensures no horizontal overflow */
+    body {
+        overflow-x: hidden;
     }
 }
-
 /* ------------------------------------------------------------------------------ */
 /* Coins Navbar */
 
