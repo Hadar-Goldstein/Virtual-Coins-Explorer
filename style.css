@@ -70,6 +70,57 @@ body {
 }
 
 
+@media (max-width: 768px) {
+    .topNav {
+        padding: 10px;  /* לדוגמה, הוסף padding שונה למסכים קטנים */
+        height: 50px;    /* אפשר לשנות את הגובה אם המסך קטן */
+    }
+    
+    .topNav a {
+        font-size: 14px; /* הקטנת גודל טקסט בקישורים */
+    }
+
+    .rotatingIcon {
+        width: 20px; /* הקטנת גודל האייקון במסכים קטנים */
+        height: 20px;
+    }
+}
+@media (max-width: 480px) {
+    .topNav {
+        padding: 8px;  /* הפחתת padding במסכים מאוד קטנים */
+        height: 40px;   /* הפחתת גובה הבר */
+    }
+
+    .topNav a {
+        font-size: 12px; /* הקטנת גודל הטקסט */
+    }
+
+    .rotatingIcon {
+        width: 18px; /* הקטנת האייקון עוד יותר */
+        height: 18px;
+    }
+
+    /* אפשרויות אחרות לעיצוב, לדוגמה הסתרת אלמנטים */
+    .topNav img {
+        display: none; /* הסתרת תמונות בריבוי מסכים קטנים */
+    }
+}
+@media (max-width: 1024px) {
+    .topNav {
+        padding: 12px;  /* padding שונה בטבלטים */
+        height: 60px;    /* גובה שונה */
+    }
+
+    .topNav a {
+        font-size: 15px; /* שינוי גודל הטקסט */
+    }
+
+    .rotatingIcon {
+        width: 22px;  /* שינוי גודל האייקון */
+        height: 22px;
+    }
+}
+
 /* ------------------------------------------------------------------------------ */
 /* Parallax Animation */
 
@@ -105,6 +156,36 @@ body {
     background-position: center;
     z-index: 1; 
     transition: transform 0.1s ease-out; 
+}
+
+/* For very small screens (smaller mobile devices) */
+@media (max-width: 480px) {
+    .parallaxBg {
+        background-size: 100% 100%; /* התמונה ממלאת את המסך בלי חיתוך */
+    }
+
+    .parallaxImage {
+        background-size: 100% 100%; /* הקטנה מוחלטת של התמונה */
+    }
+
+    .parallaxContainer {
+        height: 60vh; /* גובה נמוך יותר במוביילים קטנים */
+    }
+}
+
+/* For larger screens (tablets and up) */
+@media (min-width: 1024px) {
+    .parallaxContainer {
+        height: 100vh; /* חזרה לגובה 100% במסכים גדולים */
+    }
+
+    .parallaxBg {
+        background-size: cover; /* שימוש ב-cover כדי שהתמונה תכסה את כל הרקע */
+    }
+
+    .parallaxImage {
+        background-size: cover;
+    }
 }
 
 /* ------------------------------------------------------------------------------ */
@@ -256,6 +337,50 @@ body {
     border: 1px solid black;
 }
 
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .navbar {
+        width: 100%;
+        margin: 20px auto;
+    }
+
+    .eurBtn, .usdBtn, .ilsBtn {
+        width: 50px;
+        height: 50px;
+        margin-top: 10px;
+    }
+
+    .input-field {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .clearBtn, .clearSelectionBtn {
+        width: 100%;
+    }
+}
+
+/* Extra Small Screen */
+@media (max-width: 480px) {
+    .navbar {
+        padding: 15px;
+    }
+
+    .eurBtn, .usdBtn, .ilsBtn {
+        width: 40px;
+        height: 40px;
+    }
+
+    .input-field {
+        width: 100%;
+    }
+
+    .clearBtn, .clearSelectionBtn {
+        width: 100%;
+        font-size: 14px;
+    }
+}
+
 /* ------------------------------------------------------------------------------ */
 /* Cards and Container */
 #cardsContainer {
@@ -360,6 +485,35 @@ body {
 .form-check-input:focus {
     box-shadow: none; 
     outline: none; 
+}
+
+@media (max-width: 480px) {
+    #cardsContainer {
+        gap: 10px; /* Further reduce gap */
+    }
+
+    .card {
+        padding: 10px; /* Smaller padding */
+        height: auto; /* Adjust height to fit content */
+    }
+
+    .infoBtn {
+        font-size: 10px; /* Even smaller button text */
+        padding: 8px; /* Reduce padding */
+    }
+
+    .coinImage img {
+        width: 20px; /* Even smaller images */
+        height: 20px; /* Even smaller images */
+    }
+
+    .symbolSpan {
+        font-size: 12px; /* Adjust symbol size */
+    }
+
+    .symbolName {
+        font-size: 10px; /* Adjust name size */
+    }
 }
 
 /* ------------------------------------------------------------------------------ */
@@ -469,6 +623,112 @@ body {
     color: red;
     margin: 0 auto;
   }
+
+  /* Mobile Responsiveness */
+@media (max-width: 1024px) {
+    .modal-content {
+        width: 80%; /* Reduce width on tablets */
+        padding: 20px;
+    }
+
+    .modal-buttons {
+        gap: 20px; /* Reduce gap between buttons */
+    }
+
+    #selectedCoinsList {
+        margin: 0 20px; /* Reduce margin for smaller screens */
+    }
+
+    .checkboxContainer {
+        flex-direction: column; /* Stack checkboxes vertically */
+        margin-bottom: 15px; /* Increase margin between items */
+    }
+
+    .modal-content h2 {
+        font-size: 22px; /* Adjust header size */
+    }
+
+    .modal-content p {
+        font-size: 12px; /* Adjust text size */
+    }
+
+    .modal-content button {
+        font-size: 12px; /* Smaller button text */
+    }
+}
+
+@media (max-width: 768px) {
+    .modal-content {
+        width: 90%; /* Further reduce width for smaller screens */
+        padding: 15px;
+    }
+
+    .modal-buttons {
+        flex-direction: column; /* Stack buttons vertically */
+        gap: 10px; /* Reduce button gap */
+    }
+
+    #selectedCoinsList {
+        margin: 0 10px; /* Further reduce margin */
+    }
+
+    .modal-content h2 {
+        font-size: 20px; /* Smaller header size */
+    }
+
+    .modal-content p {
+        font-size: 12px; /* Smaller text */
+    }
+
+    .modal-content button {
+        width: 80%; /* Make buttons wider */
+        font-size: 12px;
+    }
+
+    .checkboxContainer {
+        padding: 10px; /* Increase padding around checkboxes */
+    }
+
+    .checkboxContainer label {
+        font-size: 12px; /* Adjust label size */
+    }
+}
+
+@media (max-width: 480px) {
+    .modal-content {
+        width: 95%; /* Maximize modal width on small screens */
+        padding: 10px; /* Less padding */
+    }
+
+    .modal-buttons {
+        gap: 5px; /* Minimal gap between buttons */
+    }
+
+    #selectedCoinsList {
+        margin: 0 5px; /* Very small margin */
+    }
+
+    .modal-content h2 {
+        font-size: 18px; /* Even smaller header size */
+    }
+
+    .modal-content p {
+        font-size: 10px; /* Even smaller text */
+    }
+
+    .modal-content button {
+        width: 90%; /* Make buttons even wider */
+        font-size: 10px; /* Smaller font size */
+    }
+
+    .checkboxContainer {
+        padding: 5px; /* Smaller padding */
+    }
+
+    .checkboxContainer label {
+        font-size: 10px; /* Smaller label font */
+    }
+}
 
 
   /* Dynamic Search */
