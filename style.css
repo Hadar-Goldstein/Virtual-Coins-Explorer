@@ -190,7 +190,7 @@ body {
     border-radius: 4px;
     padding: 10px;
     background-color: #f2f1ec;
-    z-index: -1;
+    z-index: 1;
 }
 
 /* Coins Buttons */
