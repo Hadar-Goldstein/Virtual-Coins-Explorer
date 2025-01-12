@@ -70,57 +70,28 @@ body {
 }
 
 
-@media (max-width: 768px) {
+/* Mobile-specific styles */
+@media (max-width: 600px) {
     .topNav {
-        padding: 10px;  /* לדוגמה, הוסף padding שונה למסכים קטנים */
-        height: 50px;    /* אפשר לשנות את הגובה אם המסך קטן */
+        padding: 10px; /* Reduce padding for mobile */
+        height: 50px; /* Adjust height */
+        flex-wrap: nowrap; /* Prevent elements from wrapping */
     }
-    
+
     .topNav a {
-        font-size: 14px; /* הקטנת גודל טקסט בקישורים */
+        margin-left: 5px;
+        margin-right: 0px;
+        font-size: 14px; /* Reduce font size for tabs */
+        flex-shrink: 1; /* Allow links to shrink if space is limited */
     }
 
     .rotatingIcon {
-        width: 20px; /* הקטנת גודל האייקון במסכים קטנים */
+        width: 20px; /* Slightly smaller icon */
         height: 20px;
+        margin-left: auto; /* Ensure icon stays at the far right */
+        flex-shrink: 0; /* Prevent the icon from shrinking */
     }
 }
-@media (max-width: 480px) {
-    .topNav {
-        padding: 8px;  /* הפחתת padding במסכים מאוד קטנים */
-        height: 40px;   /* הפחתת גובה הבר */
-    }
-
-    .topNav a {
-        font-size: 12px; /* הקטנת גודל הטקסט */
-    }
-
-    .rotatingIcon {
-        width: 18px; /* הקטנת האייקון עוד יותר */
-        height: 18px;
-    }
-
-    /* אפשרויות אחרות לעיצוב, לדוגמה הסתרת אלמנטים */
-    .topNav img {
-        display: none; /* הסתרת תמונות בריבוי מסכים קטנים */
-    }
-}
-@media (max-width: 1024px) {
-    .topNav {
-        padding: 12px;  /* padding שונה בטבלטים */
-        height: 60px;    /* גובה שונה */
-    }
-
-    .topNav a {
-        font-size: 15px; /* שינוי גודל הטקסט */
-    }
-
-    .rotatingIcon {
-        width: 22px;  /* שינוי גודל האייקון */
-        height: 22px;
-    }
-}
-
 /* ------------------------------------------------------------------------------ */
 /* Parallax Animation */
 
@@ -158,28 +129,7 @@ body {
     transition: transform 0.1s ease-out; 
 }
 
-/* For very small screens (smaller mobile devices) */
-/* Mobile responsive adjustments */
-@media only screen and (max-width: 768px) {
-    /* Parallax image in mobile */
-    .parallaxImage {
-        background-size: contain;  /* Prevents stretching */
-        background-position: center center;  /* Ensures the image is centered */
-        height: auto;  /* Adjusts the height for mobile view */
-    }
 
-    /* Parallax background in mobile */
-    .parallaxBg {
-        background-size: contain;  /* Prevents stretching */
-        background-position: center center;
-        background-attachment: scroll;  /* Disables fixed background */
-    }
-
-    /* Ensures no horizontal overflow */
-    body {
-        overflow-x: hidden;
-    }
-}
 /* ------------------------------------------------------------------------------ */
 /* Coins Navbar */
 
