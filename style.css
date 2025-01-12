@@ -74,7 +74,7 @@ body {
 @media (max-width: 600px) {
     .topNav {
         padding: 10px; /* Reduce padding for mobile */
-        height: 50px; /* Adjust height */
+        height: 40px; /* Adjust height */
         flex-wrap: nowrap; /* Prevent elements from wrapping */
     }
 
@@ -93,8 +93,7 @@ body {
     }
 }
 /* ------------------------------------------------------------------------------ */
-/* Parallax Animation */
-
+/* Parallax Container */
 .parallaxContainer {
     position: relative;
     width: 100%;
@@ -102,7 +101,7 @@ body {
     overflow: hidden;
 }
 
-/* Parallax background stays fixed */
+/* Parallax background stays fixed on desktop */
 .parallaxBg {
     position: absolute;
     top: 0;
@@ -110,25 +109,41 @@ body {
     width: 100%;
     height: 100%;
     background-image: url(assets/images/Virtual\ Coins\ Explorer.png);
-    background-position: center;
+    background-position: top center; /* Stick to the top of the page */
     background-size: cover;
-    z-index: -1; 
+    background-repeat: no-repeat;  /* Prevent repeating images */
+    z-index: -1;
 }
 
-/* Parallax image style */
+/* Parallax image style (falling coins) */
 .parallaxImage {
     position: absolute;
-    top: 0;
+    top: 0;  /* Ensure the image sticks to the top */
     left: 0;
     width: 100%;
     height: 100%;
     background-image: url(assets/images/falling-coins.png); 
-    background-size: cover; 
-    background-position: center;
-    z-index: 1; 
-    transition: transform 0.1s ease-out; 
+    background-size: contain; /* Prevents stretching */
+    background-position: top center; /* Stick to the top */
+    background-repeat: no-repeat; /* Prevents duplication */
+    z-index: 1;
+    transition: transform 0.1s ease-out;
 }
 
+/* Mobile-specific styles */
+@media only screen and (max-width: 768px) {
+    /* Adjusts parallax image size and positioning for mobile */
+    .parallaxImage, .parallaxBg {
+        background-size: contain;  /* Fit the image */
+        background-position: top center;  /* Stick the image to the top */
+        background-attachment: scroll;  /* Disable fixed background */
+    }
+
+    /* Ensure no horizontal overflow */
+    body {
+        overflow-x: hidden;
+    }
+}
 
 /* ------------------------------------------------------------------------------ */
 /* Coins Navbar */
