@@ -20,7 +20,14 @@ $(window).scroll(() => {
 
 // Get Data from local storage
 const symbolsString = JSON.parse(localStorage.getItem('symbolsString'));
-console.log(typeof symbolsString);
+
+if(symbolsString === null) {
+    alert("Live Report can't be displayed because no coins were selected");
+    $(document).ready(function () {
+        window.location.href = "index.html";
+    });
+    
+}
 
 // Create string for chart'a subtitle
 const splitted = symbolsString.split(",");

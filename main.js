@@ -481,9 +481,11 @@ function setStorageToggles() {
 
 $("#liveReportsLink").on("click", ()=>{
 
-    loadStorageData();
+    // loadStorageData();
     let string = "";
     const length = coinsArray.length;
+    if(length === 0)
+        return;
     let counter = 0;
     for(const item of coinsArray) {
         counter++;
