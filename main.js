@@ -157,7 +157,7 @@ function saveCoinsFrontData(coins) {
         const image = item.image;
         const symbol = item.symbol;
         const name = item.name;
-        const coin = { image, symbol, name };
+        const coin = { image, symbol, name};
         coinsFrontData.set(key, coin);
     }
 
@@ -188,6 +188,14 @@ function displayCoinFrontCache(id) {
             <button onclick="backCardHandling('${id}')" class="infoBtn">More Information</button>
         </span>
         `;
+
+        const existsInLocalStorage = coinsArray.find(coin => coin === id);
+        if(existsInLocalStorage !== undefined) {
+            const checkbox = document.getElementById(`${id}-toggle`);
+            checkbox.checked = true;
+
+        }
+
     }
     else {
         getMoreInfo(id);
@@ -324,11 +332,13 @@ function selectedCoins(id) {
         }
     }
     
-    saveInStorage();
-
+    
     if (coinsArray.length > 5) {
         openModal();
     }
+    
+    saveInStorage();
+
 }
 
 
@@ -342,12 +352,14 @@ function openModal() {
 
     let content = "";
     for (const item of coinsArray) {
-        const cardSymbol = $(`#${item}`).find(".symbolSpan");
+        // const cardSymbol = $(`#${item}`).find(".symbolSpan");
+        const coinObj = coinsFrontData.get(item);
+        const cardSymbol = coinObj.symbol.toUpperCase();
 
         content += `
             <div class="checkboxContainer">
                 <input type="checkbox" id="checkbox-${item}" value="${item}">
-                <label for="checkbox-${item}">${cardSymbol.text()}</label><br>
+                <label for="checkbox-${item}">${cardSymbol}</label><br>
             </div>`;
     }
     selectedCoinsList.innerHTML = content;
