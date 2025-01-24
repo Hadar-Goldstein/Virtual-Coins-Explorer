@@ -2,9 +2,22 @@
 "use strict";
 
 // Get DOM Elements
+// ****************
 const capacityModal = document.getElementById("capacityModal");
 
+// Global Variables
+// ****************
+let clickTimes = new Map();
+let coinsFrontData = new Map();
+let coinsPrices = new Map();
+let coinsArray = [];
 
+const priceSymbols = new Map();
+priceSymbols.set("eur", "\u20AC");
+priceSymbols.set("usd", "\u0024");
+priceSymbols.set("ils", "\u20AA");
+
+// --------------------------------------------------------------------------------------------------
 
 // Parallax Animation 
 // ******************
@@ -55,12 +68,10 @@ function getDisplayList() {
     return displayList;
 }
 
-
-
 // --------------------------------------------------------------------------------------------------
+
 // On Load 
 // *******
-
 $(function() {
     // Once the Website is loaded run code
     getCoinsData();
@@ -71,13 +82,12 @@ $(function() {
 });
 
 
-
 // Get front-card data from API
 // ****************************
 async function getCoinsData() {
     try {
-        // const url = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd";
-        const url = "coins.json";
+        const url = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd";
+        // const url = "coins.json"; // for testing
         const response = await axios.get(url);
         const coins = response.data;
         displayCoins(coins);
@@ -119,9 +129,6 @@ function displayCoins(coins) {
 
 // More-Information Btn handling
 // *****************************
-
-let clickTimes = new Map();
-
 function backCardHandling(id) {
     const currentClickTime = Date.now();
 
@@ -149,8 +156,6 @@ function backCardHandling(id) {
 
 // Save front-card data 
 // ********************
-let coinsFrontData = new Map();
-
 function saveCoinsFrontData(coins) {
     for (const item of coins) {
         const key = item.id;
@@ -160,10 +165,6 @@ function saveCoinsFrontData(coins) {
         const coin = { image, symbol, name};
         coinsFrontData.set(key, coin);
     }
-
-    // coinsFrontData.forEach((value, key) => {
-    //     console.log(key, value);
-    // });
 }
 
 
@@ -193,7 +194,6 @@ function displayCoinFrontCache(id) {
         if(existsInLocalStorage !== undefined) {
             const checkbox = document.getElementById(`${id}-toggle`);
             checkbox.checked = true;
-
         }
 
     }
@@ -226,17 +226,9 @@ async function getMoreInfo(id) {
 
 }
 
-const priceSymbols = new Map();
-priceSymbols.set("eur", "\u20AC");
-priceSymbols.set("usd", "\u0024");
-priceSymbols.set("ils", "\u20AA");
-
-
 // Display back-card data based on API data
 // ****************************************
 function displayMoreInfoCard(coin, id) {
-
-
     const displayList = getDisplayList();
     const apiObj = "market_data.current_price";
 
@@ -264,8 +256,6 @@ function displayMoreInfoCard(coin, id) {
 
 // Save back-card data 
 // ********************
-let coinsPrices = new Map();
-
 function saveCoinPrices(coin, id) {
     const eur = coin.market_data.current_price.eur;
     const usd = coin.market_data.current_price.usd;
@@ -273,10 +263,6 @@ function saveCoinPrices(coin, id) {
     const coinPrice = { eur, usd, ils };
 
     coinsPrices.set(`${id}`, coinPrice);
-
-    // coinsPrices.forEach((value, key) => {
-    //     console.log(key, value);
-    // });
 }
 
 
@@ -315,8 +301,6 @@ function displayFromCache(id) {
 
 // Modal Handling
 // **************
-let coinsArray = [];
-let modal = document.getElementById("myModal");
 function selectedCoins(id) {
     const checkbox = document.getElementById(`${id}-toggle`);
     const isChecked = checkbox.checked;
@@ -332,15 +316,12 @@ function selectedCoins(id) {
         }
     }
     
-    
     if (coinsArray.length > 5) {
         openModal();
     }
     
     saveInStorage();
-
 }
-
 
 function openModal() {
     const selectedCoinsList = document.getElementById("selectedCoinsList");
@@ -385,7 +366,6 @@ function closeModal() {
         }
     }
     saveInStorage();
-    console.log(coinsArray);
 
     if (coinsArray.length > 5) {
         $("#errorModalDiv").css("display", "flex");
@@ -397,7 +377,6 @@ function closeModal() {
 }
 
 function cancelModal() {
-
     const lastSelection = coinsArray[coinsArray.length - 1];
     const toggle = document.getElementById(`${lastSelection}-toggle`);
     toggle.checked = false;
@@ -476,12 +455,6 @@ async function loadSVG(id) {
         "margin": "auto"
     });
 }
-
-
-// Bonus Test
-
-const url = "https://min-api.cryptocompare.com/data/pricemulti?fsyms=BTC,ETH&tsyms=USD,EUR";
-const apiKey = "de74120914e79001714c5592aac92671b8bacbf2f50377763b1e657b292277d8";
 
 // Local Storage save
 // ******************
