@@ -367,6 +367,8 @@ function closeModal() {
         }
     }
 
+    saveInStorage();
+
     if (coinsArray.length > liveReportCapacity) {
         $("#errorModalDiv").css("display", "flex");
     }
