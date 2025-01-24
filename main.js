@@ -7,6 +7,7 @@ const capacityModal = document.getElementById("capacityModal");
 
 // Global Variables
 // ****************
+const liveReportCapacity = 5;
 let clickTimes = new Map();
 let coinsFrontData = new Map();
 let coinsPrices = new Map();
@@ -34,6 +35,8 @@ $(window).scroll(() => {
     else
         $("nav a").css("color", "#d9d9d9");
 });
+
+
 
 // --------------------------------------------------------------------------------------------------
 
@@ -313,7 +316,7 @@ function selectedCoins(id) {
         }
     }
     
-    if (coinsArray.length > 5) {
+    if (coinsArray.length > liveReportCapacity) {
         openModal();
     }
     
@@ -330,7 +333,6 @@ function openModal() {
 
     let content = "";
     for (const item of coinsArray) {
-        // const cardSymbol = $(`#${item}`).find(".symbolSpan");
         const coinObj = coinsFrontData.get(item);
         const cardSymbol = coinObj.symbol.toUpperCase();
 
@@ -358,13 +360,14 @@ function closeModal() {
 
         if (value === true) {
             const toggle = document.getElementById(`${coinsArray[i]}-toggle`);
-            toggle.checked = false;
+            if(toggle !== null){
+                toggle.checked = false;
+            }
             coinsArray.splice(i, 1);
         }
     }
-    saveInStorage();
 
-    if (coinsArray.length > 5) {
+    if (coinsArray.length > liveReportCapacity) {
         $("#errorModalDiv").css("display", "flex");
     }
     else {
@@ -380,7 +383,6 @@ function cancelModal() {
     coinsArray.splice((coinsArray.length - 1), 1);
 
     saveInStorage();
-    console.log(coinsArray);
 
     capacityModal.style.display = "none";
     document.body.style.overflow = '';
