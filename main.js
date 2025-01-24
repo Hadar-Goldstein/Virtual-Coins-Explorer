@@ -35,8 +35,6 @@ $(window).scroll(() => {
         $("nav a").css("color", "#d9d9d9");
 });
 
-
-
 // --------------------------------------------------------------------------------------------------
 
 function getDisplayList() {
@@ -86,8 +84,8 @@ $(function() {
 // ****************************
 async function getCoinsData() {
     try {
-        const url = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd";
-        // const url = "coins.json"; // for testing
+        // const url = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd";
+        const url = "coins.json"; // for testing
         const response = await axios.get(url);
         const coins = response.data;
         displayCoins(coins);
@@ -222,6 +220,7 @@ async function getMoreInfo(id) {
     catch(err) {
         console.log("Can't get data from API");
         alert(err.message);
+        displayCoinFrontCache(id);
     }
 
 }
@@ -269,14 +268,12 @@ function saveCoinPrices(coin, id) {
 // Display back-card via local data
 // *********************************
 function displayFromCache(id) {
-    console.log("display price from cache executed");
 
     if (!coinsPrices.has(id)) {
         getMoreInfo(id);
     }
 
     const displayList = getDisplayList();
-
 
     let content = "";
     for (const item of displayList) {
@@ -440,7 +437,7 @@ $(".clearSelectionBtn").on("click", () => {
 
 
 async function loadSVG(id) {
-    const url = "assets/test2.svg";
+    const url = "assets/svg/spinner_svg.svg";
     const response = await axios.get(url);
     const svg = response.data;
     // Set SVG to specific card
