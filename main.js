@@ -1,9 +1,7 @@
 /// <reference path="jquery-3.7.1.js"/>
 "use strict";
 
-// Get DOM Elements
-// ****************
-const capacityModal = document.getElementById("capacityModal");
+(()=>{
 
 // Global Variables
 // ****************
@@ -42,17 +40,15 @@ $(window).scroll(() => {
 
 function getDisplayList() {
     // Check user choices 
-    const eur = document.getElementById(`eur`);
-    const usd = document.getElementById(`usd`);
-    const ils = document.getElementById(`ils`);
+    const eurChecked = $('#eur').prop('checked');
+    const usdChecked = $('#usd').prop('checked');
+    const ilsChecked = $('#ils').prop('checked');
+
 
     let optionsList = new Map;
 
-    const eurChecked = eur.checked;
     optionsList.set("eur", eurChecked);
-    const usdChecked = usd.checked;
     optionsList.set("usd", usdChecked);
-    const ilsChecked = ils.checked;
     optionsList.set("ils", ilsChecked);
 
     let displayList = [];
@@ -105,7 +101,6 @@ async function getCoinsData() {
 // Display front-card based on API data
 // ************************************
 function displayCoins(coins) {
-    const cardsContainer = document.getElementById("cardsContainer");
     let content = "";
     for (const coin of coins) {
         content += `
@@ -117,15 +112,28 @@ function displayCoins(coins) {
                     <span class="symbolName">${coin.name}</span>
                 </div>
                 <div class="form-check form-switch">
-                    <input onclick="selectedCoins('${coin.id}')" id="${coin.id}-toggle" class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                    <input id="${coin.id}-toggle" class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
                 </div>
             </div>
         <span>
-            <button onclick="backCardHandling('${coin.id}')" class="infoBtn">More Information</button>
+            <button id="${coin.id}" class="infoBtn">More Information</button>
         </span>
         </div>`;
     }
-    cardsContainer.innerHTML += content;
+    $("#cardsContainer").html(content)
+
+
+    $(".infoBtn").on("click", function () {
+        const coinId = this.id; 
+        backCardHandling(coinId);
+    });
+
+    $("input.form-check-input").on("click", function () {
+        const fullId = this.id;
+        const coinId = fullId.split("-")[0];
+        selectedCoins(coinId); 
+    });
+    
 }
 
 // More-Information Btn handling
@@ -174,8 +182,7 @@ function saveCoinsFrontData(coins) {
 function displayCoinFrontCache(id) {
     if (coinsFrontData.has(id)) {
         const coin = coinsFrontData.get(id);
-        const cardElement = document.getElementById(id);
-        cardElement.innerHTML = `
+        const content = `
             <div class="coinIdentity">
                 <span class="coinImage"><img src="${coin.image}"></span>
                 <div class="coinInfo">
@@ -183,18 +190,30 @@ function displayCoinFrontCache(id) {
                     <span class="symbolName">${coin.name}</span>
                 </div>
                 <div class="form-check form-switch">
-                    <input onclick="selectedCoins('${id}')" id="${id}-toggle" class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                    <input id="${id}-toggle" class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
                 </div>
             </div>
         <span>
-            <button onclick="backCardHandling('${id}')" class="infoBtn">More Information</button>
+            <button id="${id}" class="infoBtn">More Information</button>
         </span>
         `;
+        $(`#${id}`).html(content);
+
+        $(".infoBtn").on("click", function () {
+            const coinId = this.id; 
+            backCardHandling(coinId);
+        });
+    
+        $("input.form-check-input").on("click", function () {
+            const fullId = this.id;
+            const coinId = fullId.split("-")[0];
+            selectedCoins(coinId); 
+        });
 
         const existsInLocalStorage = coinsArray.find(coin => coin === id);
         if(existsInLocalStorage !== undefined) {
-            const checkbox = document.getElementById(`${id}-toggle`);
-            checkbox.checked = true;
+            const checkbox = $(`#${id}-toggle`);  
+            checkbox.prop('checked', true); 
         }
 
     }
@@ -247,13 +266,17 @@ function displayMoreInfoCard(coin, id) {
         `;
     }
 
-    const coinDiv = document.getElementById(`${id}`);
-    coinDiv.innerHTML =
-        `<div class="coinPrice">${content}</div>
-    <span>
-        <button onclick="displayCoinFrontCache('${coin.id}')" class="infoBtn">Close</button>
-     </span>
-    `;
+    $(`#${id}`).html(`
+        <div class="coinPrice">${content}</div>
+        <span>
+            <button id="${coin.id}" class="closeBtn">Close</button>
+        </span> `
+    );
+
+    $(".closeBtn").on("click", function () {
+        const id = this.id;
+        displayCoinFrontCache(id);
+    });
 }
 
 // Save back-card data 
@@ -274,6 +297,7 @@ function displayFromCache(id) {
 
     if (!coinsPrices.has(id)) {
         getMoreInfo(id);
+        return;
     }
 
     const displayList = getDisplayList();
@@ -293,17 +317,21 @@ function displayFromCache(id) {
     coinDiv.innerHTML =`
         <div class="coinPrice">${content}</div>
         <span>
-            <button onclick="displayCoinFrontCache('${id}')" class="infoBtn">Close</button>
+            <button class="infoBtn">Close</button>
         </span>
         `;
+
+    $(".infoBtn").on("click", function () {
+        displayCoinFrontCache(id);
+    });
     }
 
 
 // Modal Handling
 // **************
 function selectedCoins(id) {
-    const checkbox = document.getElementById(`${id}-toggle`);
-    const isChecked = checkbox.checked;
+    const checkbox = $(`#${id}-toggle`);
+    const isChecked = checkbox.prop('checked');    
 
     if (isChecked) {
         const coin = id;
@@ -324,12 +352,12 @@ function selectedCoins(id) {
 }
 
 function openModal() {
-    const selectedCoinsList = document.getElementById("selectedCoinsList");
-    const errorModalDiv = document.getElementById("errorModalDiv");
-    errorModalDiv.style.display = "none";
+    const errorModalDiv = $("#errorModalDiv");
+    errorModalDiv.css("display", "none");    
 
-    capacityModal.style.display = "flex";
-    document.body.style.overflow = 'hidden';
+    $("#capacityModal").css("display", "flex");
+    $("body").css("overflow", "hidden");
+    
 
     let content = "";
     for (const item of coinsArray) {
@@ -342,26 +370,28 @@ function openModal() {
                 <label for="checkbox-${item}">${cardSymbol}</label><br>
             </div>`;
     }
-    selectedCoinsList.innerHTML = content;
+    $("#selectedCoinsList").html(content);
 
-    const closeModalBtn = document.getElementById("closeModalBtn");
-    closeModalBtn.addEventListener("click", closeModal);
 
-    
-    const cancelModalBtn = document.getElementById("cancelModalBtn");
-    cancelModalBtn.addEventListener("click", cancelModal);
+    $("#closeModalBtn").on("click", closeModal);
+    // const closeModalBtn = document.getElementById("closeModalBtn");
+    // closeModalBtn.addEventListener("click", closeModal);
+
+    $("#cancelModalBtn").on("click", cancelModal);
+    // const cancelModalBtn = document.getElementById("cancelModalBtn");
+    // cancelModalBtn.addEventListener("click", cancelModal);
 }
 
 function closeModal() {
     for (let i = (coinsArray.length -1); i >= 0; i--) {
 
-        const checkbox = document.getElementById(`checkbox-${coinsArray[i]}`);
-        const value = checkbox.checked;
+        const checkbox = $(`#checkbox-${coinsArray[i]}`);
+        const value = checkbox.prop('checked');   
 
         if (value === true) {
-            const toggle = document.getElementById(`${coinsArray[i]}-toggle`);
+            const toggle = $(`#${coinsArray[i]}-toggle`);
             if(toggle !== null){
-                toggle.checked = false;
+                toggle.prop('checked', false);
             }
             coinsArray.splice(i, 1);
         }
@@ -373,21 +403,22 @@ function closeModal() {
         $("#errorModalDiv").css("display", "flex");
     }
     else {
-        capacityModal.style.display = "none";
-        document.body.style.overflow = '';
+        $("#capacityModal").css("display", "none");
+        $("body").css("overflow", "");
+        
     }
 }
 
 function cancelModal() {
     const lastSelection = coinsArray[coinsArray.length - 1];
-    const toggle = document.getElementById(`${lastSelection}-toggle`);
-    toggle.checked = false;
+    $(`#${lastSelection}-toggle`).prop('checked', false);
+
     coinsArray.splice((coinsArray.length - 1), 1);
 
     saveInStorage();
 
-    capacityModal.style.display = "none";
-    document.body.style.overflow = '';
+    $("#capacityModal").css("display", "none");
+    $("body").css("overflow", "");
 }
 
 
@@ -431,8 +462,7 @@ $(".clearBtn").on("click", () => {
 // ******************
 $(".clearSelectionBtn").on("click", () => {
     for (let i = 0; i < coinsArray.length; i++) {
-        const toggle = document.getElementById(`${coinsArray[i]}-toggle`);
-        toggle.checked = false;
+        $(`#${coinsArray[i]}-toggle`).prop('checked', false);
     }
 
     coinsArray = [];
@@ -474,8 +504,7 @@ function loadStorageData() {
 function setStorageToggles() {
     loadStorageData();
     for(const item of coinsArray) {
-        const checkbox = document.getElementById(`${item}-toggle`);
-        checkbox.checked = true;
+        $(`#${item}-toggle`).prop('checked', true);
     }
 }
 
@@ -503,3 +532,5 @@ $("#liveReportsLink").on("click", ()=>{
     const json = JSON.stringify(saveString);
     localStorage.setItem("symbolsString", json);
 });
+
+})();
