@@ -116,19 +116,21 @@ function displayCoins(coins) {
                 </div>
             </div>
         <span>
-            <button id="${coin.id}" class="infoBtn">More Information</button>
+            <button id="${coin.id}-infoBtn" class="infoBtn">More Information</button>
         </span>
         </div>`;
     }
-    $("#cardsContainer").html(content)
+    $("#cardsContainer").html(content);
 
 
     $(".infoBtn").on("click", function () {
         const coinId = this.id; 
-        backCardHandling(coinId);
+        const splitted = coinId.split("-");
+        const id = splitted[0];
+        backCardHandling(id);
     });
 
-    $("input.form-check-input").on("click", function () {
+    $(".form-check-input").on("click", function () {
         const fullId = this.id;
         const coinId = fullId.split("-")[0];
         selectedCoins(coinId); 
@@ -194,17 +196,19 @@ function displayCoinFrontCache(id) {
                 </div>
             </div>
         <span>
-            <button id="${id}" class="infoBtn">More Information</button>
+            <button id="${id}-infoBtn" class="infoBtn">More Information</button>
         </span>
         `;
         $(`#${id}`).html(content);
 
         $(".infoBtn").on("click", function () {
             const coinId = this.id; 
-            backCardHandling(coinId);
+            const splitted = coinId.split("-");
+            const id = splitted[0];
+            backCardHandling(id);
         });
     
-        $("input.form-check-input").on("click", function () {
+        $(".form-check-input").on("change", function () {
             const fullId = this.id;
             const coinId = fullId.split("-")[0];
             selectedCoins(coinId); 
@@ -269,12 +273,14 @@ function displayMoreInfoCard(coin, id) {
     $(`#${id}`).html(`
         <div class="coinPrice">${content}</div>
         <span>
-            <button id="${coin.id}" class="closeBtn">Close</button>
+            <button id="${coin.id}-closeBtn" class="closeBtn">Close</button>
         </span> `
     );
 
     $(".closeBtn").on("click", function () {
-        const id = this.id;
+        const btnId = this.id;
+        const splitted = btnId.split("-");
+        const id = splitted[0];
         displayCoinFrontCache(id);
     });
 }
@@ -333,17 +339,22 @@ function selectedCoins(id) {
     const checkbox = $(`#${id}-toggle`);
     const isChecked = checkbox.prop('checked');    
 
+    console.log(`Changing state of ${id}: ${isChecked ? 'checked' : 'unchecked'}`);
+
     if (isChecked) {
         const coin = id;
         coinsArray.push(coin);
-    }
+    } 
     else {
         for (let i = 0; i < coinsArray.length; i++) {
             if (coinsArray[i] === id)
                 coinsArray.splice(i, 1);
         }
     }
-    
+
+
+    console.log("coinsArray after change:", coinsArray);
+
     if (coinsArray.length > liveReportCapacity) {
         openModal();
     }
@@ -396,6 +407,7 @@ function closeModal() {
             coinsArray.splice(i, 1);
         }
     }
+    console.log("coinsArray after modal close:", coinsArray);
 
     saveInStorage();
 
