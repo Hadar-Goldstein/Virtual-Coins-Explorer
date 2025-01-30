@@ -38,6 +38,17 @@
 
     // --------------------------------------------------------------------------------------------------
 
+    $(document).on("click", ".infoBtn", function () {
+        const btnId = this.id; // This will correctly get the button's ID
+        backCardHandling(btnId);
+    });
+    
+    $(document).on("click", ".form-check-input", function () {
+        const fullId = this.id; // Now this will correctly refer to the clicked toggle
+        selectedCoins(fullId);
+    });
+    
+    
     function getDisplayList() {
         // Check user choices
         const eurChecked = $("#eur").prop("checked");
@@ -118,16 +129,18 @@
         }
         $("#cardsContainer").html(content);
 
-        $(".infoBtn").on("click", function () {
-            const btnId = this.id;
-            backCardHandling(btnId);
-        });
+        // $(".infoBtn").on("click", function () {
+        //     const btnId = this.id;
+        //     backCardHandling(btnId);
+        // });
 
-        $(".form-check-input").on("click", function () {
-            const fullId = this.id;
-            selectedCoins(fullId);
-        });
+        // $(".form-check-input").on("click", function () {
+        //     const fullId = this.id;
+        //     selectedCoins(fullId);
+        // });
     }
+
+    
 
     function getCoinId(btn) {
         let coinArr = btn.split("-");
@@ -209,16 +222,6 @@
         `;
             $(`#${id}`).html(content);
 
-            $(".infoBtn").on("click", function () {
-                const btnId = this.id;;
-                backCardHandling(btnId);
-            });
-
-            $(".form-check-input").on("click", function () {
-                const toggleId = this.id;
-                selectedCoins(toggleId);
-            });
-
             const existsInLocalStorage = coinsArray.find((coin) => coin === id);
             if (existsInLocalStorage !== undefined) {
                 const checkbox = $(`#${id}-toggle`);
@@ -227,6 +230,7 @@
         } else {
             getMoreInfo(id);
         }
+
     }
 
     // Get back-card data from API
@@ -249,6 +253,7 @@
             alert(err.message);
             displayCoinFrontCache(id);
         }
+
     }
 
     // Display back-card data based on API data
@@ -276,13 +281,19 @@
             <button id="${coin.id}-closeBtn" class="closeBtn">Close</button>
         </span> `);
 
-        $(".closeBtn").on("click", function () {
-            const btnId = this.id;
-            const id = getCoinId(btnId)
-            displayCoinFrontCache(id);
-        });
+        // $(".closeBtn").on("click", function () {
+        //     const btnId = this.id;
+        //     const id = getCoinId(btnId)
+        //     displayCoinFrontCache(id);
+        // });
     }
 
+    $(document).on("click", ".closeBtn", function () {
+        const btnId = this.id; // Gets the button's ID
+        const id = getCoinId(btnId); // Extracts the coin ID from the button ID
+        displayCoinFrontCache(id); // Calls the function to update the UI
+    });
+    
     // Save back-card data
     // ********************
     function saveCoinPrices(coin, id) {
@@ -314,18 +325,12 @@
             <span>${price} ${symbol}</span>
             `;
         }
-
-        const coinDiv = document.getElementById(`${id}`);
-        coinDiv.innerHTML = `
-        <div class="coinPrice">${content}</div>
-        <span>
-            <button class="infoBtn">Close</button>
-        </span>
-        `;
-
-        $(".infoBtn").on("click", function () {
-            displayCoinFrontCache(id);
-        });
+        $(`#${id}`).html(`
+            <div class="coinPrice">${content}</div>
+                <span>
+                    <button id="${id}-closeBtn" class="closeBtn">Close</button>
+                </span>
+        `);
     }
 
     // Modal Handling
@@ -523,4 +528,11 @@
         const json = JSON.stringify(saveString);
         localStorage.setItem("symbolsString", json);
     });
+
+
+
+
+
+    
+
 })();
