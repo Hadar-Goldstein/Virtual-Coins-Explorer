@@ -161,7 +161,6 @@
         if (clickTimes.has(coinId)) {
             const lastTimeClick = clickTimes.get(coinId);
             const timeDiff = currentClickTime - lastTimeClick;
-            console.log(`time diff = ${timeDiff / 60000}`);
 
             if (timeDiff > timeForApiUpdate) {
                 clickTimes.set(coinId, currentClickTime);
@@ -235,8 +234,6 @@
             const coin = response.data;
 
             $(`#${coinId}`).html("");
-
-            console.log("display price from API executed");
 
             displayMoreInfoCard(coin, coinId);
             saveCoinPrices(coin, coinId);
@@ -334,8 +331,6 @@
             }
         }
 
-        console.log("coinsArray after change:", coinsArray);
-
         if (coinsArray.length > liveReportCapacity) {
             openModal();
         }
@@ -379,7 +374,6 @@
                 coinsArray.splice(i, 1);
             }
         }
-        console.log("coinsArray after modal close:", coinsArray);
 
         saveInStorage();
 
