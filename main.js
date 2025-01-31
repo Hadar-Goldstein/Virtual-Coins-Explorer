@@ -456,9 +456,9 @@
             }
         });
 
-        // No result handling
-        if (!hasResults) $("#noResultsContainer").show();
-        else $("#noResultsContainer").hide();
+        // // No result handling
+        if (!hasResults) $("#noResultsContainer").css("display", "block");
+        else  $("#noResultsContainer").css("display", "none"); 
     });
 
     // Clear Button
