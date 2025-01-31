@@ -262,7 +262,8 @@
         const displayList = getDisplayList();
         const apiObj = "market_data.current_price";
 
-        let content = "";
+        let content = `<span class="symbolSpanBack">${coin.symbol}</span>`;
+        
         for (const item of displayList) {
             const symbol = priceSymbols.get(item);
             const path = `${apiObj}.${item}`;
@@ -315,7 +316,10 @@
 
         const displayList = getDisplayList();
 
-        let content = "";
+        const coin = coinsFrontData.get(id);
+        const coinSymbol = coin.symbol;
+
+        let content = `<span class="symbolSpanBack">${coinSymbol}</span>`;
         for (const item of displayList) {
             const symbol = priceSymbols.get(item);
             const pricesObj = coinsPrices.get(id);
@@ -440,7 +444,11 @@
         $(".card").each(function () {
             const cardSymbol = $(this).find(".symbolSpan");
             const cardSymbolText = cardSymbol.text().toLowerCase();
-            if (cardSymbolText.includes(userInput)) {
+            
+            const backCardSymbol = $(this).find(".symbolSpanBack");
+            const backCardSymbolText = backCardSymbol.text().toLowerCase();
+
+            if (cardSymbolText.includes(userInput) || backCardSymbolText.includes(userInput)) {
                 $(this).show();
                 hasResults = true;
             } else {
