@@ -5,6 +5,7 @@
     // Global Variables
     // ****************
     const liveReportCapacity = 5;
+    const timeForApiUpdate = 120000;
     let clickTimes = new Map();
     let coinsFrontData = new Map();
     let coinsPrices = new Map();
@@ -50,22 +51,22 @@
 
         let displayList = [];
         optionsList.forEach((value, key) => {
-            if (value === true) displayList.push(key);
+            if (value === true) 
+                displayList.push(key);
         });
 
         // If all false display all types
-        if (displayList.length === 0) {
+        if (displayList.length === 0)
             displayList = ["eur", "usd", "ils"];
-        }
 
         return displayList;
     }
 
     function getCoinId(btn) {
-        let coinArr = btn.split("-");
-        coinArr.splice(coinArr.length - 1, 1);
-        const id = coinArr.join("-");
-        return id;
+        let btnArray = btn.split("-");
+        btnArray.splice(btnArray.length - 1, 1);
+        const coinId = btnArray.join("-");
+        return coinId;
     }
 
     // --------------------------------------------------------------------------------------------------
@@ -85,21 +86,20 @@
 
     // Events
     // ******
-
     $(document).on("click", ".infoBtn", function () {
-        const btnId = this.id; // This will correctly get the button's ID
-        backCardHandling(btnId);
+        const btnArray = this.id; 
+        backCardHandling(btnArray);
     });
     
     $(document).on("click", ".form-check-input", function () {
-        const fullId = this.id; // Now this will correctly refer to the clicked toggle
-        selectedCoins(fullId);
+        const toggleId = this.id; 
+        selectedCoins(toggleId);
     });
 
     $(document).on("click", ".closeBtn", function () {
-        const btnId = this.id; 
-        const id = getCoinId(btnId); 
-        displayCoinFrontCache(id);
+        const btnArray = this.id; 
+        const coinId = getCoinId(btnArray); 
+        displayCoinFrontCache(coinId);
     });
 
     $("#closeModalBtn").on("click", closeModal);
@@ -119,7 +119,8 @@
             displayCoins(coins);
             saveCoinsFrontData(coins);
             setStorageToggles();
-        } catch (err) {
+        } 
+        catch (err) {
             console.log("Can't get data from API");
             alert(err.message);
         }
@@ -142,9 +143,9 @@
                     <input id="${coin.id}-toggle" class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
                 </div>
             </div>
-        <span>
-            <button id="${coin.id}-infoBtn" class="infoBtn">More Information</button>
-        </span>
+            <span>
+                <button id="${coin.id}-infoBtn" class="infoBtn">More Information</button>
+            </span>
         </div>`;
         }
         $("#cardsContainer").html(content);
@@ -152,27 +153,28 @@
 
     // More-Information Btn handling
     // *****************************
-    function backCardHandling(btnId) {
+    function backCardHandling(btnArray) {
 
-        const id = getCoinId(btnId);
+        const coinId = getCoinId(btnArray);
 
         const currentClickTime = Date.now();
 
-        if (clickTimes.has(id)) {
-            const lastTimeClick = clickTimes.get(id);
+        if (clickTimes.has(coinId)) {
+            const lastTimeClick = clickTimes.get(coinId);
             const timeDiff = currentClickTime - lastTimeClick;
             console.log(`time diff = ${timeDiff / 60000}`);
-            const updateTime = 120000;
 
-            if (timeDiff > updateTime) {
-                clickTimes.set(id, currentClickTime);
-                getMoreInfo(id);
-            } else {
-                displayFromCache(id);
+            if (timeDiff > timeForApiUpdate) {
+                clickTimes.set(coinId, currentClickTime);
+                getMoreInfo(coinId);
+            } 
+            else {
+                displayFromCache(coinId);
             }
+
         } else {
-            clickTimes.set(id, currentClickTime);
-            getMoreInfo(id);
+            clickTimes.set(coinId, currentClickTime);
+            getMoreInfo(coinId);
         }
     }
 
@@ -191,9 +193,9 @@
 
     // Display front-card via local data
     // *********************************
-    function displayCoinFrontCache(id) {
-        if (coinsFrontData.has(id)) {
-            const coin = coinsFrontData.get(id);
+    function displayCoinFrontCache(coinId) {
+        if (coinsFrontData.has(coinId)) {
+            const coin = coinsFrontData.get(coinId);
             const content = `
             <div class="coinIdentity">
                 <span class="coinImage"><img src="${coin.image}"></span>
@@ -202,45 +204,48 @@
                     <span class="symbolName">${coin.name}</span>
                 </div>
                 <div class="form-check form-switch">
-                    <input id="${id}-toggle" class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                    <input id="${coinId}-toggle" class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
                 </div>
             </div>
-        <span>
-            <button id="${id}-infoBtn" class="infoBtn">More Information</button>
-        </span>
-        `;
-            $(`#${id}`).html(content);
+            <span>
+                <button id="${coinId}-infoBtn" class="infoBtn">More Information</button>
+            </span>`;
 
-            const existsInLocalStorage = coinsArray.find((coin) => coin === id);
+            $(`#${coinId}`).html(content);
+
+            // Set toggle if relevant
+            const existsInLocalStorage = coinsArray.find((coin) => coin === coinId);
             if (existsInLocalStorage !== undefined) {
-                const checkbox = $(`#${id}-toggle`);
-                checkbox.prop("checked", true);
+                const coinToggle = $(`#${coinId}-toggle`);
+                coinToggle.prop("checked", true);
             }
-        } else {
-            getMoreInfo(id);
+        } 
+        else {
+            getMoreInfo(coinId);
         }
 
     }
 
     // Get back-card data from API
     // ****************************
-    async function getMoreInfo(id) {
+    async function getMoreInfo(coinId) {
         try {
-            loadSVG(id);
-            const url = `https://api.coingecko.com/api/v3/coins/${id}`;
+            loadSVG(coinId);
+            const url = `https://api.coingecko.com/api/v3/coins/${coinId}`;
             const response = await axios.get(url);
             const coin = response.data;
 
-            $(`#${id}`).html("");
+            $(`#${coinId}`).html("");
 
             console.log("display price from API executed");
-            displayMoreInfoCard(coin, id);
-            saveCoinPrices(coin, id);
+
+            displayMoreInfoCard(coin, coinId);
+            saveCoinPrices(coin, coinId);
         } 
         catch (err) {
             console.log("Can't get data from API");
             alert(err.message);
-            displayCoinFrontCache(id);
+            displayCoinFrontCache(coinId);
         }
 
     }
@@ -252,7 +257,6 @@
         const apiObj = "market_data.current_price";
 
         let content = `<span class="symbolSpanBack">${coin.symbol}</span>`;
-        
         for (const item of displayList) {
             const symbol = priceSymbols.get(item);
             const path = `${apiObj}.${item}`;
@@ -260,9 +264,7 @@
             const keys = path.split(".");
             const apiData = keys.reduce((obj, key) => obj && obj[key], coin);
 
-            content += `
-        <span>${apiData} ${symbol}</span>
-        `;
+            content += `<span>${apiData} ${symbol}</span>`;
         }
 
         $(`#${id}`).html(`
@@ -274,42 +276,44 @@
 
     // Save back-card data
     // ********************
-    function saveCoinPrices(coin, id) {
+    function saveCoinPrices(coin, coinId) {
         const eur = coin.market_data.current_price.eur;
         const usd = coin.market_data.current_price.usd;
         const ils = coin.market_data.current_price.ils;
         const coinPrice = { eur, usd, ils };
 
-        coinsPrices.set(`${id}`, coinPrice);
+        coinsPrices.set(`${coinId}`, coinPrice);
     }
 
     // Display back-card via local data
     // *********************************
-    function displayFromCache(id) {
-        if (!coinsPrices.has(id)) {
-            getMoreInfo(id);
+    function displayFromCache(coinId) {
+        // Validation
+        if (!coinsPrices.has(coinId)) {
+            getMoreInfo(coinId);
             return;
         }
 
+        // User choices
         const displayList = getDisplayList();
 
-        const coin = coinsFrontData.get(id);
+        // Get coin symbol
+        const coin = coinsFrontData.get(coinId);
         const coinSymbol = coin.symbol;
 
         let content = `<span class="symbolSpanBack">${coinSymbol}</span>`;
         for (const item of displayList) {
             const symbol = priceSymbols.get(item);
-            const pricesObj = coinsPrices.get(id);
+            const pricesObj = coinsPrices.get(coinId);
             const price = pricesObj[item];
 
-            content += `
-            <span>${price} ${symbol}</span>
-            `;
+            content += `<span>${price} ${symbol}</span>`;
         }
-        $(`#${id}`).html(`
+
+        $(`#${coinId}`).html(`
             <div class="coinPrice">${content}</div>
                 <span>
-                    <button id="${id}-closeBtn" class="closeBtn">Close</button>
+                    <button id="${coinId}-closeBtn" class="closeBtn">Close</button>
                 </span>
         `);
     }
@@ -380,9 +384,8 @@
 
         saveInStorage();
 
-        if (coinsArray.length > liveReportCapacity) {
+        if (coinsArray.length > liveReportCapacity)
             $("#errorModalDiv").css("display", "flex");
-        } 
         else {
             $("#capacityModal").css("display", "none");
             $("body").css("overflow", "");
@@ -402,6 +405,7 @@
         $("body").css("overflow", "");
     }
 
+    // --------------------------------------------------------------------------------------------------
     // Coins Navbar Handling
     // *********************
 
@@ -428,7 +432,7 @@
             }
         });
 
-        // // No result handling
+        //No result handling
         if (!hasResults) $("#noResultsContainer").css("display", "block");
         else  $("#noResultsContainer").css("display", "none"); 
     });
@@ -450,15 +454,15 @@
         saveInStorage();
     });
 
-    async function loadSVG(id) {
+    async function loadSVG(coinId) {
         const url = "assets/svg/spinner_svg.svg";
         const response = await axios.get(url);
         const svg = response.data;
         // Set SVG to specific card
-        $(`#${id}`).html(`${svg}`);
+        $(`#${coinId}`).html(`${svg}`);
 
         // SVG CSS to make sure its inside the card
-        const svgElement = $(`#${id}`).find("svg");
+        const svgElement = $(`#${coinId}`).find("svg");
         svgElement.css({
             "max-width": "100%",
             "max-height": "100%",
@@ -495,17 +499,20 @@
             localStorage.removeItem("symbolsString");
 
         // Create new local data
-        let string = "";
         const length = coinsArray.length;
         if (length === 0) return;
+        
+        let string = "";
         let counter = 0;
         for (const item of coinsArray) {
             counter++;
             const coinObj = coinsFrontData.get(item);
             const coinSymbol = coinObj.symbol;
 
-            if (counter === length) string += `${coinSymbol}`;
-            else string += `${coinSymbol},`;
+            if (counter === length) 
+                string += `${coinSymbol}`;
+            else 
+                string += `${coinSymbol},`;
         }
 
         const saveString = string.toUpperCase();
