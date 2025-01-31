@@ -37,7 +37,7 @@
 
     // --------------------------------------------------------------------------------------------------
     
-    function getDisplayList() {
+    function getUserDisplayList() {
         // Check user choices
         const eurChecked = $("#eur").prop("checked");
         const usdChecked = $("#usd").prop("checked");
@@ -75,10 +75,10 @@
     // *******
     $(function () {
         // Once the Website is loaded run code
-        getCoinsData();
+        getCoinsDataFromApi();
 
         $("#coinsLink").on("click", function () {
-            getCoinsData();
+            getCoinsDataFromApi();
         });
     });
 
@@ -93,13 +93,13 @@
     
     $(document).on("click", ".form-check-input", function () {
         const toggleId = this.id; 
-        selectedCoins(toggleId);
+        selectedCoinsHandling(toggleId);
     });
 
     $(document).on("click", ".closeBtn", function () {
         const btnArray = this.id; 
         const coinId = getCoinId(btnArray); 
-        displayCoinFrontCache(coinId);
+        displayFrontDataFromLocalData(coinId);
     });
 
     $("#closeModalBtn").on("click", closeModal);
@@ -110,13 +110,13 @@
 
     // Get front-card data from API
     // ****************************
-    async function getCoinsData() {
+    async function getCoinsDataFromApi() {
         try {
             // const url = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd";
             const url = "coins.json"; // for testing
             const response = await axios.get(url);
             const coins = response.data;
-            displayCoins(coins);
+            displayFrontCardFromApi(coins);
             saveCoinsFrontData(coins);
             setStorageToggles();
         } 
@@ -128,7 +128,7 @@
 
     // Display front-card based on API data
     // ************************************
-    function displayCoins(coins) {
+    function displayFrontCardFromApi(coins) {
         let content = "";
         for (const coin of coins) {
             content += `
@@ -166,15 +166,15 @@
 
             if (timeDiff > timeForApiUpdate) {
                 clickTimes.set(coinId, currentClickTime);
-                getMoreInfo(coinId);
+                getMoreInfoFromApi(coinId);
             } 
             else {
-                displayFromCache(coinId);
+                displayBackCardFromLocalData(coinId);
             }
 
         } else {
             clickTimes.set(coinId, currentClickTime);
-            getMoreInfo(coinId);
+            getMoreInfoFromApi(coinId);
         }
     }
 
@@ -193,7 +193,7 @@
 
     // Display front-card via local data
     // *********************************
-    function displayCoinFrontCache(coinId) {
+    function displayFrontDataFromLocalData(coinId) {
         if (coinsFrontData.has(coinId)) {
             const coin = coinsFrontData.get(coinId);
             const content = `
@@ -221,14 +221,14 @@
             }
         } 
         else {
-            getMoreInfo(coinId);
+            getMoreInfoFromApi(coinId);
         }
 
     }
 
     // Get back-card data from API
     // ****************************
-    async function getMoreInfo(coinId) {
+    async function getMoreInfoFromApi(coinId) {
         try {
             loadSVG(coinId);
             const url = `https://api.coingecko.com/api/v3/coins/${coinId}`;
@@ -245,7 +245,7 @@
         catch (err) {
             console.log("Can't get data from API");
             alert(err.message);
-            displayCoinFrontCache(coinId);
+            displayFrontDataFromLocalData(coinId);
         }
 
     }
@@ -253,7 +253,7 @@
     // Display back-card data based on API data
     // ****************************************
     function displayMoreInfoCard(coin, id) {
-        const displayList = getDisplayList();
+        const displayList = getUserDisplayList();
         const apiObj = "market_data.current_price";
 
         let content = `<span class="symbolSpanBack">${coin.symbol}</span>`;
@@ -287,15 +287,15 @@
 
     // Display back-card via local data
     // *********************************
-    function displayFromCache(coinId) {
+    function displayBackCardFromLocalData(coinId) {
         // Validation
         if (!coinsPrices.has(coinId)) {
-            getMoreInfo(coinId);
+            getMoreInfoFromApi(coinId);
             return;
         }
 
         // User choices
-        const displayList = getDisplayList();
+        const displayList = getUserDisplayList();
 
         // Get coin symbol
         const coin = coinsFrontData.get(coinId);
@@ -320,7 +320,7 @@
 
     // Modal Handling
     // **************
-    function selectedCoins(toggle) {
+    function selectedCoinsHandling(toggle) {
 
         const toggleIsChecked = $(`#${toggle}`).prop("checked");
         const coinId = getCoinId(toggle);
