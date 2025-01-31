@@ -457,8 +457,8 @@
         });
 
         // No result handling
-        if (!hasResults) $(noResultsContainer).show();
-        else $(noResultsContainer).hide();
+        if (!hasResults) $("#noResultsContainer").show();
+        else $("#noResultsContainer").hide();
     });
 
     // Clear Button
