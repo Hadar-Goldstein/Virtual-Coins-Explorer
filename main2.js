@@ -24,7 +24,12 @@ const symbolsString = JSON.parse(localStorage.getItem('symbolsString'));
 if(symbolsString === null) {
     alert("Live Report can't be displayed because no coins were selected");
     $(document).ready(function () {
-        window.location.href = "index.html";
+        let previousPage = document.referrer;
+
+        if (previousPage) 
+            window.location.href = previousPage;
+        else 
+            window.location.href = "index.html";
     });
     
 }

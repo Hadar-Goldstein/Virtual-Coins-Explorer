@@ -517,7 +517,12 @@
     }
 
     $("#liveReportsLink").on("click", () => {
-        // loadStorageData();
+
+        // Check if already exist
+        if (localStorage.getItem("symbolsString"))
+            localStorage.removeItem("symbolsString");
+
+        // Create new local data
         let string = "";
         const length = coinsArray.length;
         if (length === 0) return;
