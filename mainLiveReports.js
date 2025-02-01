@@ -6,6 +6,7 @@
 $(window).scroll(() => {
     const scrollPositionY = $(window).scrollTop();
     const speed = 0.4;
+
     $(".parallaxImage").css("transform", `translate3d(0, ${scrollPositionY * speed}px, 0)`);
 
     const backgroundHeight = $(".parallaxBg").outerHeight();
@@ -20,6 +21,7 @@ $(window).scroll(() => {
 // Get Data from local storage
 const symbolsString = JSON.parse(localStorage.getItem('symbolsString'));
 let errorLogic = false;
+
 if(symbolsString === null) errorLogic = true;
 else if(symbolsString.length === 0) errorLogic = true;
 
@@ -33,7 +35,6 @@ if(errorLogic) {
         else 
             window.location.href = "index.html";
     });
-    
 }
 
 // Create string for chart's subtitle
@@ -44,7 +45,6 @@ const subtitle = splitted.join(", ");
 let coinDataPoints = {};
 
 function getDataArray() {
-
     const dataArray = [];
     const coins = subtitle.split(", ");
 
@@ -63,7 +63,6 @@ function getDataArray() {
         dataArray.push(obj);
     }
 
-    // console.log(dataArray);
     return dataArray;
 }
 
@@ -75,8 +74,6 @@ function getDataFromApi() {
             const url = `https://min-api.cryptocompare.com/data/pricemulti?fsyms=${symbolsString}&tsyms=USD&api_key=${apiKey}`;
             const response = await axios.get(url);
             const pricesObj = response.data;
-
-            // console.log("Data received from API: ", pricesObj);
 
             updateChartData(pricesObj);
         }
@@ -90,9 +87,7 @@ function getDataFromApi() {
 // Update Chart 
 function updateChartData(pricesObj) {
     for (const coin in pricesObj) {
-
         if (coinDataPoints[coin]) {
-
             const yValue = pricesObj[coin].USD;
             const currentTime = new Date();
 
@@ -107,15 +102,13 @@ function updateChartData(pricesObj) {
             }
         }
     }
-    // console.log("Data points for all coins:", coinDataPoints);
 
     chart.render();
 }
 
-
-
 // JQuery`s function 
 let chart;
+
 window.onload = function () {
     const dataArray = getDataArray();
 
@@ -149,7 +142,6 @@ window.onload = function () {
 
     // Chart creation
     chart = $("#chartContainer").CanvasJSChart(options).CanvasJSChart();
-
 
     function toggleDataSeries(e) {
         if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {

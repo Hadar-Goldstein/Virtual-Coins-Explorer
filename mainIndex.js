@@ -5,12 +5,13 @@
     // ****************
     const liveReportCapacity = 5;
     const timeForApiUpdate = 120000;
+    const priceSymbols = new Map();
+
     let clickTimes = new Map();
     let coinsFrontData = new Map();
     let coinsPrices = new Map();
     let coinsArray = [];
 
-    const priceSymbols = new Map();
     priceSymbols.set("eur", "\u20AC");
     priceSymbols.set("usd", "\u0024");
     priceSymbols.set("ils", "\u20AA");
@@ -30,6 +31,7 @@
 
         // Adjust navbar color
         const backgroundHeight = $(".parallaxBg").outerHeight();
+
         if (backgroundHeight <= scrollPositionY) $("nav a").css("color", "black");
         else $("nav a").css("color", "#d9d9d9");
     });
@@ -102,7 +104,6 @@
     });
 
     $("#closeModalBtn").on("click", closeModal);
-
     $("#cancelModalBtn").on("click", cancelModal);
     
     // --------------------------------------------------------------------------------------------------
@@ -111,10 +112,11 @@
     // ****************************
     async function getCoinsDataFromApi() {
         try {
-            // const url = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd";
-            const url = "coins.json"; // for testing
+            const url = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd";
+            // const url = "coins.json"; // for testing
             const response = await axios.get(url);
             const coins = response.data;
+            
             displayFrontCardFromApi(coins);
             saveCoinsFrontData(coins);
             setStorageToggles();
@@ -153,9 +155,7 @@
     // More-Information Btn handling
     // *****************************
     function backCardHandling(btnArray) {
-
         const coinId = getCoinId(btnArray);
-
         const currentClickTime = Date.now();
 
         if (clickTimes.has(coinId)) {
@@ -170,7 +170,8 @@
                 displayBackCardFromLocalData(coinId);
             }
 
-        } else {
+        }
+        else {
             clickTimes.set(coinId, currentClickTime);
             getMoreInfoFromApi(coinId);
         }
@@ -185,6 +186,7 @@
             const symbol = item.symbol;
             const name = item.name;
             const coin = { image, symbol, name };
+            
             coinsFrontData.set(key, coin);
         }
     }
@@ -229,6 +231,7 @@
     async function getMoreInfoFromApi(coinId) {
         try {
             loadSVG(coinId);
+            
             const url = `https://api.coingecko.com/api/v3/coins/${coinId}`;
             const response = await axios.get(url);
             const coin = response.data;
@@ -243,7 +246,6 @@
             alert(err.message);
             displayFrontDataFromLocalData(coinId);
         }
-
     }
 
     // Display back-card data based on API data
@@ -253,10 +255,10 @@
         const apiObj = "market_data.current_price";
 
         let content = `<span class="symbolSpanBack">${coin.symbol}</span>`;
+
         for (const item of displayList) {
             const symbol = priceSymbols.get(item);
             const path = `${apiObj}.${item}`;
-
             const keys = path.split(".");
             const apiData = keys.reduce((obj, key) => obj && obj[key], coin);
 
@@ -298,6 +300,7 @@
         const coinSymbol = coin.symbol;
 
         let content = `<span class="symbolSpanBack">${coinSymbol}</span>`;
+
         for (const item of displayList) {
             const symbol = priceSymbols.get(item);
             const pricesObj = coinsPrices.get(coinId);
@@ -317,7 +320,6 @@
     // Modal Handling
     // **************
     function selectedCoinsHandling(toggle) {
-
         const toggleIsChecked = $(`#${toggle}`).prop("checked");
         const coinId = getCoinId(toggle);
 
@@ -346,6 +348,7 @@
         $("body").css("overflow", "hidden");
 
         let content = "";
+
         for (const item of coinsArray) {
             const coinObj = coinsFrontData.get(item);
             const cardSymbol = coinObj.symbol.toUpperCase();
@@ -388,10 +391,10 @@
     function cancelModal() {
         const lastIndex = coinsArray.length - 1;
         const lastSelection = coinsArray[lastIndex];
+
         $(`#${lastSelection}-toggle`).prop("checked", false);
 
         coinsArray.splice(lastIndex, 1);
-
         saveInStorage();
 
         $("#capacityModal").css("display", "none");
@@ -413,7 +416,6 @@
         $(".card").each(function () {
             const cardSymbol = $(this).find(".symbolSpan");
             const cardSymbolText = cardSymbol.text().toLowerCase();
-            
             const backCardSymbol = $(this).find(".symbolSpanBack");
             const backCardSymbolText = backCardSymbol.text().toLowerCase();
 
@@ -451,6 +453,7 @@
         const url = "assets/svg/spinner_svg.svg";
         const response = await axios.get(url);
         const svg = response.data;
+
         // Set SVG to specific card
         $(`#${coinId}`).html(`${svg}`);
 
@@ -467,12 +470,12 @@
     // Local Storage save
     // ******************
     function saveInStorage() {
-        const json = JSON.stringify(coinsArray);
-        localStorage.setItem("selectedCoins", json);
+        const coinsArrayJson = JSON.stringify(coinsArray);
+        localStorage.setItem("selectedCoins", coinsArrayJson);
 
         const coinsSymbolString = getCoinsSymbolString(coinsArray);
-        const json2 = JSON.stringify(coinsSymbolString);
-        localStorage.setItem("symbolsString", json2);
+        const symbolStringJson = JSON.stringify(coinsSymbolString);
+        localStorage.setItem("symbolsString", symbolStringJson);
     }
 
     function loadStorageData() {
@@ -499,6 +502,7 @@
     function getCoinsSymbolString(selectedCoins) {
         let string = "";
         let counter = 0;
+
         for (const item of selectedCoins) {
             counter++;
             const coinObj = coinsFrontData.get(item);
@@ -513,5 +517,4 @@
         const saveString = string.toUpperCase();
         return saveString;
     }
-
 })();
