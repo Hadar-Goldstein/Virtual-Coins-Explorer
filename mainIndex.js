@@ -479,7 +479,14 @@
         const selectedCoinsJson = localStorage.getItem("selectedCoins");
         if (selectedCoinsJson) {
             coinsArray = JSON.parse(selectedCoinsJson);
+            fixCoinsArray();
+            saveInStorage();
         }
+    }
+
+    function fixCoinsArray() {
+        if(coinsArray.length > liveReportCapacity)
+            coinsArray.splice(liveReportCapacity);
     }
 
     function setStorageToggles() {
