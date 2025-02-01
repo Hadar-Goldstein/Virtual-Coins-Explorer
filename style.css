@@ -353,12 +353,23 @@ body {
     gap: 10px 10px;
     max-width: 1000px;
     margin: 20px auto;
+    padding-left: 30px;
     min-height: 300px;
     position: relative;
     box-sizing: border-box;
     overflow: hidden; 
-    justify-items: center; 
-    align-items: center; 
+}
+
+#cardsContainer.search {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+    gap: 10px 10px;
+    max-width: 1000px;
+    margin: 20px auto;
+    min-height: 300px;
+    position: relative;
+    box-sizing: border-box;
+    overflow: hidden; 
 }
 
 .card {
