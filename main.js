@@ -469,6 +469,10 @@
     function saveInStorage() {
         const json = JSON.stringify(coinsArray);
         localStorage.setItem("selectedCoins", json);
+
+        const coinsSymbolString = getCoinsSymbolString(coinsArray);
+        const json2 = JSON.stringify(coinsSymbolString);
+        localStorage.setItem("symbolsString", json2);
     }
 
     function loadStorageData() {
@@ -485,34 +489,22 @@
         }
     }
 
-    $("#liveReportsLink").on("click", () => {
-
-        // Check if already exist
-        if (localStorage.getItem("symbolsString"))
-            localStorage.removeItem("symbolsString");
-
-        // Create new local data
-        const length = coinsArray.length;
-        if (length === 0) return;
-        
+    function getCoinsSymbolString(selectedCoins) {
         let string = "";
         let counter = 0;
-        for (const item of coinsArray) {
+        for (const item of selectedCoins) {
             counter++;
             const coinObj = coinsFrontData.get(item);
             const coinSymbol = coinObj.symbol;
 
-            if (counter === length) 
+            if (counter === selectedCoins.length) 
                 string += `${coinSymbol}`;
             else 
                 string += `${coinSymbol},`;
         }
 
         const saveString = string.toUpperCase();
-
-        const json = JSON.stringify(saveString);
-        localStorage.setItem("symbolsString", json);
-    });
-
+        return saveString;
+    }
 
 })();
