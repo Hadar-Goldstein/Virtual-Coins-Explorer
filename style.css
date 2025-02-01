@@ -535,6 +535,7 @@ body {
     text-align: center;
     overflow-y: auto;
     overflow-x: hidden;
+    flex-direction: column;  /* מוודא שהתוכן יתפוס את כל הגובה בצורה אוטומטית */
 }
 
 .modal-content h2 {
@@ -586,7 +587,7 @@ body {
     justify-content: flex-start;
     gap: 10px; 
     color: rgba(0, 0, 0, 0.7);
-    width: 100%;
+    width: 80%;
 }
 
 .checkboxContainer {
@@ -596,9 +597,11 @@ body {
     margin-bottom: 10px;
     transition: background-color 0.3s ease;
     cursor: pointer; 
-    width: 100%;
     justify-content: flex-start;  /* Make sure items are left-aligned */
     flex-wrap: nowrap;  /* Ensure checkbox and label stay on the same line */
+    width: auto;  /* מאפשר לרוחב להיות מותאם לפי התוכן */
+    max-width: 100%;
+    box-sizing: border-box; /* מוודא שה-padding וה-border לא יוסיפו לרוחב */
 }
 
 .checkboxContainer:hover {
