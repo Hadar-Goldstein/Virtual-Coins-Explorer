@@ -73,23 +73,23 @@ body {
 /* Mobile-specific styles */
 @media (max-width: 600px) {
     .topNav {
-        padding: 10px; /* Reduce padding for mobile */
-        height: 40px; /* Adjust height */
-        flex-wrap: nowrap; /* Prevent elements from wrapping */
+        padding: 10px; 
+        height: 40px; 
+        flex-wrap: nowrap; 
     }
 
     .topNav a {
         margin-left: 5px;
         margin-right: 0px;
-        font-size: 14px; /* Reduce font size for tabs */
-        flex-shrink: 1; /* Allow links to shrink if space is limited */
+        font-size: 14px; 
+        flex-shrink: 1; 
     }
 
     .rotatingIcon {
-        width: 20px; /* Slightly smaller icon */
+        width: 20px; 
         height: 20px;
-        margin-left: auto; /* Ensure icon stays at the far right */
-        flex-shrink: 0; /* Prevent the icon from shrinking */
+        margin-left: auto; 
+        flex-shrink: 0; 
     }
 }
 /* ------------------------------------------------------------------------------ */
@@ -97,8 +97,8 @@ body {
 .parallaxContainer {
     position: relative;
     width: 100%;
-    height: 100vh; /* Full screen height */
-    overflow: hidden; /* Prevents image overflow */
+    height: 100vh;
+    overflow: hidden;
 }
 
 /* Parallax background image styles */
@@ -110,7 +110,7 @@ body {
     height: 100%;
     background-image: url(assets/images/Virtual\ Coins\ Explorer.png);
     background-position: center center;
-    background-size: cover; /* Ensure it covers the screen */
+    background-size: cover;
     background-repeat: no-repeat;
     z-index: -1;
 }
@@ -123,7 +123,7 @@ body {
     width: 100%;
     height: 100%;
     background-image: url(assets/images/falling-coins.png);
-    background-size: contain; /* Adjust to make the image fit proportionally */
+    background-size: contain;
     background-position: top center;
     background-repeat: no-repeat;
     z-index: 1;
@@ -480,30 +480,30 @@ body {
 
 @media (max-width: 480px) {
     #cardsContainer {
-        gap: 10px; /* Further reduce gap */
+        gap: 10px;
     }
 
     .card {
-        padding: 10px; /* Smaller padding */
-        height: auto; /* Adjust height to fit content */
+        padding: 10px;
+        height: auto;
     }
 
     .infoBtn {
-        font-size: 10px; /* Even smaller button text */
-        padding: 8px; /* Reduce padding */
+        font-size: 10px;
+        padding: 8px;
     }
 
     .coinImage img {
-        width: 20px; /* Even smaller images */
-        height: 20px; /* Even smaller images */
+        width: 20px;
+        height: 20px;
     }
 
     .symbolSpan {
-        font-size: 12px; /* Adjust symbol size */
+        font-size: 12px;
     }
 
     .symbolName {
-        font-size: 10px; /* Adjust name size */
+        font-size: 10px;
     }
 }
 
@@ -520,7 +520,7 @@ body {
     width: 100%;
     background-color: rgba(0, 0, 0, 0.8);
     z-index: 1000;
-    overflow-x: hidden;  /* מונע גלילה אופקית */
+    overflow-x: hidden;
     overflow-y: auto; 
 }
 
@@ -535,7 +535,7 @@ body {
     text-align: center;
     overflow-y: auto;
     overflow-x: hidden;
-    flex-direction: column;  /* מוודא שהתוכן יתפוס את כל הגובה בצורה אוטומטית */
+    flex-direction: column;
 }
 
 .modal-content h2 {
@@ -591,17 +591,17 @@ body {
 }
 
 .checkboxContainer {
-    display: flex;  /* Flex container for checkbox and label */
-    align-items: center;  /* Vertically align checkbox and label */
+    display: flex;
+    align-items: center;
     padding: 5px;
     margin-bottom: 10px;
     transition: background-color 0.3s ease;
     cursor: pointer; 
-    justify-content: flex-start;  /* Make sure items are left-aligned */
-    flex-wrap: nowrap;  /* Ensure checkbox and label stay on the same line */
-    width: auto;  /* מאפשר לרוחב להיות מותאם לפי התוכן */
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    width: auto;
     max-width: 100%;
-    box-sizing: border-box; /* מוודא שה-padding וה-border לא יוסיפו לרוחב */
+    box-sizing: border-box;
 }
 
 .checkboxContainer:hover {
@@ -610,7 +610,7 @@ body {
 }
 
 .checkboxContainer label {
-    margin-left: 10px;  /* Space between checkbox and label */
+    margin-left: 10px;
     text-align: left;
     font-size: 14px;
 }
@@ -628,108 +628,108 @@ body {
 /* Mobile Responsiveness */
 @media (max-width: 1024px) {
     .modal-content {
-        width: 80%; /* Reduce width on tablets */
+        width: 80%;
         padding: 20px;
     }
 
     .modal-buttons {
-        gap: 10px; /* Reduce gap between buttons */
+        gap: 10px;
     }
 
     #selectedCoinsList {
-        margin: 0 20px; /* Reduce margin for smaller screens */
+        margin: 0 20px;
     }
 
     .checkboxContainer {
-        flex-direction: row;  /* Keep checkbox and label in a row even on smaller screens */
-        margin-bottom: 15px; /* Increase margin between items */
+        flex-direction: row;
+        margin-bottom: 15px;
     }
 
     .modal-content h2 {
-        font-size: 22px; /* Adjust header size */
+        font-size: 22px;
     }
 
     .modal-content p {
-        font-size: 12px; /* Adjust text size */
+        font-size: 12px;
     }
 
     .modal-content button {
-        font-size: 12px; /* Smaller button text */
+        font-size: 12px;
     }
     .modal-buttons {
-        gap: 15px; /* מעט רווח קטן יותר במובייל */
+        gap: 15px;
 }
 }
 
 @media (max-width: 768px) {
     .modal-content {
-        width: 90%; /* Further reduce width for smaller screens */
+        width: 90%;
         padding: 15px;
     }
 
     .modal-buttons {
-        gap: 10px; /* Reduce button gap */
+        gap: 10px;
     }
 
     #selectedCoinsList {
-        margin: 0 10px; /* Further reduce margin */
+        margin: 0 10px;
     }
 
     .modal-content h2 {
-        font-size: 20px; /* Smaller header size */
+        font-size: 20px;
     }
 
     .modal-content p {
-        font-size: 12px; /* Smaller text */
+        font-size: 12px;
     }
 
     .modal-content button {
-        width: 80%; /* Make buttons wider */
+        width: 80%;
         font-size: 12px;
     }
 
     .checkboxContainer {
-        padding: 10px; /* Increase padding around checkboxes */
+        padding: 10px;
     }
 
     .checkboxContainer label {
-        font-size: 12px; /* Adjust label size */
+        font-size: 12px;
     }
 }
 
 @media (max-width: 480px) {
     .modal-content {
-        width: 95%; /* Maximize modal width on small screens */
-        padding: 10px; /* Less padding */
+        width: 95%;
+        padding: 10px;
     }
 
     .modal-buttons {
-        gap: 5px; /* Minimal gap between buttons */
+        gap: 5px;
     }
 
     #selectedCoinsList {
-        margin: 0 5px; /* Very small margin */
+        margin: 0 5px;
     }
 
     .modal-content h2 {
-        font-size: 18px; /* Even smaller header size */
+        font-size: 18px;
     }
 
     .modal-content p {
-        font-size: 10px; /* Even smaller text */
+        font-size: 10px;
     }
 
     .modal-content button {
-        width: 90%; /* Make buttons even wider */
-        font-size: 10px; /* Smaller font size */
+        width: 90%;
+        font-size: 10px;
     }
 
     .checkboxContainer {
-        padding: 5px; /* Smaller padding */
+        padding: 5px;
     }
 
     .checkboxContainer label {
-        font-size: 10px; /* Smaller label font */
+        font-size: 10px;
     }
 }
 
