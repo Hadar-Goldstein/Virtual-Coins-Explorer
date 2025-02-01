@@ -19,8 +19,11 @@ $(window).scroll(() => {
 
 // Get Data from local storage
 const symbolsString = JSON.parse(localStorage.getItem('symbolsString'));
+let errorLogic = false;
+if(symbolsString === null) errorLogic = true;
+else if(symbolsString.length === 0) errorLogic = true;
 
-if(symbolsString.length === 0) {
+if(errorLogic) {
     alert("Live Report can't be displayed because no coins were selected");
     $(document).ready(function () {
         let previousPage = document.referrer;
