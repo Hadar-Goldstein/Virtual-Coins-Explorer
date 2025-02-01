@@ -509,27 +509,32 @@ body {
 
 /* ------------------------------------------------------------------------------ */
 /* Modal */
-.modalContainer{
+.modalContainer {
     display: none;
     align-items: center;
     justify-content: center;
     position: fixed;
     top: 0;
     left: 0;
-    height: 100vh;
-    width: 100vw;
+    height: 100%;
+    width: 100%;
     background-color: rgba(0, 0, 0, 0.8);
     z-index: 1000;
+    overflow-x: hidden;  /* מונע גלילה אופקית */
+    overflow-y: auto; 
 }
 
 .modal-content {
     background-color: #fff;
     width: 600px;
-    max-width: 100%;
-    padding: 10px;
+    max-width: 90%;
+    max-height: 80vh;
+    padding: 20px;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgb(0, 0, 0, 0.2);
     text-align: center;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .modal-content h2 {
@@ -571,6 +576,8 @@ body {
     flex-direction: column;
     align-items: flex-start;
     margin: 0 40px;
+    width: 100%;
+    flex-wrap: wrap;
 }
 
 #selectedCoinsList div {
@@ -579,43 +586,43 @@ body {
     justify-content: flex-start;
     gap: 10px; 
     color: rgba(0, 0, 0, 0.7);
+    width: 100%;
 }
 
-
 .checkboxContainer {
-    display: flex;
-    align-items: center;
+    display: flex;  /* Flex container for checkbox and label */
+    align-items: center;  /* Vertically align checkbox and label */
     padding: 5px;
     margin-bottom: 10px;
     transition: background-color 0.3s ease;
     cursor: pointer; 
-    width: 100%; 
-  }
-  
-  .checkboxContainer:hover {
-    background-color: #e0e0e0;
-    border-radius: 4px; 
-  }
-  
+    width: 100%;
+    justify-content: flex-start;  /* Make sure items are left-aligned */
+    flex-wrap: nowrap;  /* Ensure checkbox and label stay on the same line */
+}
 
-  .checkboxContainer label {
-    display: block; 
-    width: 100%; 
-    margin-left: 10px; 
+.checkboxContainer:hover {
+    background-color: #e0e0e0;
+    border-radius: 4px;
+}
+
+.checkboxContainer label {
+    margin-left: 10px;  /* Space between checkbox and label */
     text-align: left;
-  }
-  
-  .checkboxContainer input[type="checkbox"]:checked + label {
+    font-size: 14px;
+}
+
+.checkboxContainer input[type="checkbox"]:checked + label {
     color: #007bff; 
-  }
-  
-  #errorModalDiv{
+}
+
+#errorModalDiv {
     display: none;
     color: red;
     margin: 0 auto;
-  }
+}
 
-  /* Mobile Responsiveness */
+/* Mobile Responsiveness */
 @media (max-width: 1024px) {
     .modal-content {
         width: 80%; /* Reduce width on tablets */
@@ -623,7 +630,7 @@ body {
     }
 
     .modal-buttons {
-        gap: 20px; /* Reduce gap between buttons */
+        gap: 10px; /* Reduce gap between buttons */
     }
 
     #selectedCoinsList {
@@ -631,7 +638,7 @@ body {
     }
 
     .checkboxContainer {
-        flex-direction: column; /* Stack checkboxes vertically */
+        flex-direction: row;  /* Keep checkbox and label in a row even on smaller screens */
         margin-bottom: 15px; /* Increase margin between items */
     }
 
@@ -646,6 +653,9 @@ body {
     .modal-content button {
         font-size: 12px; /* Smaller button text */
     }
+    .modal-buttons {
+        gap: 15px; /* מעט רווח קטן יותר במובייל */
+}
 }
 
 @media (max-width: 768px) {
@@ -655,7 +665,6 @@ body {
     }
 
     .modal-buttons {
-        flex-direction: column; /* Stack buttons vertically */
         gap: 10px; /* Reduce button gap */
     }
 
@@ -720,6 +729,8 @@ body {
         font-size: 10px; /* Smaller label font */
     }
 }
+
+
 
 
   /* Dynamic Search */
