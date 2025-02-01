@@ -1,4 +1,3 @@
-/// <reference path="jquery-3.7.1.js"/>
 "use strict";
 
 
@@ -34,7 +33,7 @@ if(symbolsString === null) {
     
 }
 
-// Create string for chart'a subtitle
+// Create string for chart's subtitle
 const splitted = symbolsString.split(",");
 const subtitle = splitted.join(", ");
 
