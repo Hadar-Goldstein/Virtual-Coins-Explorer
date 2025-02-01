@@ -285,7 +285,7 @@ body {
         width: 100%;
         margin: 20px auto;
     }
-
+    
     .eurBtn, .usdBtn, .ilsBtn {
         width: 50px;
         height: 50px;
@@ -295,12 +295,21 @@ body {
     .input-field {
         width: 100%;
         margin-left: 0;
+        margin-bottom: 5px;
     }
 
-    .clearBtn, .clearSelectionBtn {
+    .clearBtn {
         width: 100%;
+        margin: 5px 0;
+    }
+    
+    
+    .clearSelectionBtn {
+        width: 100%;
+        margin-top: 5px;
     }
 }
+
 
 /* Extra Small Screen */
 @media (max-width: 480px) {
