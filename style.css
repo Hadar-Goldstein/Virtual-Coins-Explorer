@@ -284,51 +284,64 @@ body {
     .navbar {
         width: 100%;
         margin: 20px auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap; 
     }
     
     .eurBtn, .usdBtn, .ilsBtn {
-        width: 50px;
-        height: 50px;
-        margin-top: 10px;
+        width: 40px;
+        height: 40px;
+        margin-top: 0;
     }
 
     .input-field {
-        width: 100%;
+        width: 70%;
         margin-left: 0;
-        margin-bottom: 5px;
+        margin-bottom: 0;
     }
 
-    .clearBtn {
-        width: 100%;
+    .buttons-container {
+        display: flex;
+        justify-content: space-between; 
+        width: 30%; 
+    }
+
+    .clearBtn, .clearSelectionBtn {
+        width: 48%; 
         margin: 5px 0;
     }
-    
-    
-    .clearSelectionBtn {
-        width: 100%;
-        margin-top: 5px;
-    }
 }
-
 
 /* Extra Small Screen */
 @media (max-width: 480px) {
     .navbar {
         padding: 15px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
     }
 
     .eurBtn, .usdBtn, .ilsBtn {
-        width: 40px;
-        height: 40px;
+        width: 30px;
+        height: 30px;
     }
 
     .input-field {
+        width: 60%;
+    }
+
+    .buttons-container {
+        display: flex;
+        justify-content: space-between;
         width: 100%;
     }
 
     .clearBtn, .clearSelectionBtn {
-        width: 100%;
-        font-size: 14px;
+        width: 48%; 
+        font-size: 12px;
     }
 }
 
